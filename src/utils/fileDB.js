@@ -1,16 +1,16 @@
-const fs = require('fs')
-const low = require('lowdb')
-const _ = require('lodash')
-const FileSync = require('lowdb/adapters/FileSync')
+import fs from 'fs'
+import low from 'lowdb'
+import _ from 'lodash'
+import LocalStorage from 'lowdb/adapters/LocalStorage'
 
 function isExistFile (fileName) {
   return fs.existsSync(`./storage/${fileName}`)
 }
 
-class FileDB {
+export class FileDB {
   constructor (model) {
     const fileName = `${process.cwd()}/storage/${model}.json`
-    const adapter = new FileSync(fileName)
+    const adapter = new LocalStorage(fileName)
     this.db = low(adapter)
     this.model = model
     if (!isExistFile(fileName)) {
@@ -56,5 +56,3 @@ class FileDB {
     return value
   }
 }
-
-module.exports = FileDB

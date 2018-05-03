@@ -11,6 +11,9 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
+    "graceful-fs": "^4.1.11",
+    "lodash": "^4.17.10",
     "lowdb": "^1.0.0",
     "mpvue": "^1.0.10",
     "vuex": "^2.3.1"

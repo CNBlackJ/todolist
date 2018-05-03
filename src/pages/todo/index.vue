@@ -10,17 +10,17 @@
 </template>
 
 <script>
+  import { list } from '@/utils/FileDBv2'
   export default{
     data () {
       return {
         newTodo: '',
-        todoList: [
-        { id: 1, title: 'play football', status: 1 }
-        ]
+        todoList: []
       }
     },
     methods: {
       addTodo: function () {
+        console.log(list())
         const todo = { id: this.todoList.length, title: this.newTodo, status: 1 }
         this.todoList.push(todo)
       }

@@ -71,7 +71,7 @@ module.exports = {
             options: {
               checkMPEntry: true
             }
-          },
+          }
         ]
       },
       {
@@ -102,5 +102,8 @@ module.exports = {
   },
   plugins: [
     new MpvuePlugin()
-  ]
+  ],
+  node: {
+    fs: 'empty'
+  }
 }
