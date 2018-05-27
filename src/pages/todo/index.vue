@@ -2,7 +2,7 @@
   <div>
     <h1>TODO LIST</h1>
     <input type="text" placeholder="enter your todo" v-model="newTodo">
-    <button @click="addTodo">done</button>
+    <button @click="addTodo">ADD</button>
     <ul>
       <li v-for="todo in todoList" :key="todo.id">{{ todo.title }}</li>
     </ul>
@@ -10,7 +10,9 @@
 </template>
 
 <script>
-  import { list } from '@/utils/FileDBv2'
+  import Fly from 'flyio/dist/npm/wx'
+  const fly = new Fly()
+
   export default{
     data () {
       return {
@@ -18,9 +20,13 @@
         todoList: []
       }
     },
+    mounted: function () {
+      fly.get('http://localhost:3001/api/todos').then(res => {
+        this.todoList = res.data.data
+      })
+    },
     methods: {
       addTodo: function () {
-        console.log(list())
         const todo = { id: this.todoList.length, title: this.newTodo, status: 1 }
         this.todoList.push(todo)
       }
