@@ -20,6 +20,8 @@ module.exports = {
       { new: true })
   },
   delete: async (_id) => {
-    return this.update(_id, { isDeleted: true })
+    return db.Todo.findOneAndUpdate(
+      { _id: ObjectId(_id), isDeleted: false },
+      { $set: { isDeleted: true } })
   }
 }
