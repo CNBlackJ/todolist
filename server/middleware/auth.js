@@ -1,13 +1,14 @@
 function auth (req, res, next) {
-  const { Authorization } = req.headers
+  const { authorization } = req.headers
   const token = 'vinliToken'
-  if (Authorization !== token) {
+  if (authorization !== token) {
     res.jsonp({
       code: 401,
       msg: 'Invalid token.'
     })
+  } else {
+    next()
   }
-  next()
 }
 
 module.exports = auth
