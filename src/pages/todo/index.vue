@@ -1,14 +1,19 @@
 <template>
   <div>
     <h1>TODO LIST</h1>
-    <input type="text" placeholder="enter your todo" v-model="newTodo">
+    <mp-cell-group title="todolist">
+      <mp-field
+        placeholder="输入代办事项..."
+        type="string"
+        v-model="newTodo"
+      />
+    </mp-cell-group>
+    <mp-checklist
+      v-model="vals"
+      :options="todoList"
+      @click="removeTodo"
+    />
     <button @click="addTodo">ADD</button>
-    <ul id="todoList">
-      <li v-for="(todo, index) in todoList" :key="todo._id">
-        <input type="checkbox" value="todo._id" @click="removeTodo(todo._id)">
-        <label for="jack">{{ todo.title }}</label>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -16,12 +21,20 @@
   import Fly from 'flyio/dist/npm/wx'
   const fly = new Fly()
 
+  import MpField from 'mp-weui/packages/field'
+  import MpChecklist from 'mp-weui/packages/checklist'
+
   export default{
     data () {
       return {
         newTodo: '',
-        todoList: []
+        todoList: [],
+        vals: []
       }
+    },
+    components: {
+      MpField,
+      MpChecklist
     },
     mounted: function () {
       this.listTodo()
@@ -30,11 +43,22 @@
       addTodo: function () {
         const todo = { title: this.newTodo, status: 1 }
         fly.post('http://localhost:3001/api/todos', todo)
+        this.newTodo = ''
         this.listTodo()
       },
       listTodo: function () {
         fly.get('http://localhost:3001/api/todos').then(res => {
-          this.todoList = res.data || []
+          if (res && res.data && res.data.length > 0) {
+            const results = []
+            res.data.forEach(v => {
+              results.push({
+                label: v.title,
+                value: v._id,
+                disabled: v.status === 1
+              })
+            })
+            this.todoList = results
+          }
         })
       },
       removeTodo: function (id) {

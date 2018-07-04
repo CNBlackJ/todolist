@@ -1,4 +1,6 @@
 <script>
+import 'mp-weui/lib/style.css'
+
 export default {
   created () {
     // 调用API从本地缓存中获取数据

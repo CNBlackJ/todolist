@@ -5,7 +5,7 @@ joi.objectId = () => joi.string().hex().length(24)
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(require('./middleware/auth'))
+// app.use(require('./middleware/auth'))
 
 app.use('/', require('./router'))
 

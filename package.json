@@ -21,6 +21,7 @@
     "lowdb": "^1.0.0",
     "mongoose": "^5.1.2",
     "mongoose-timestamp": "^0.6.0",
+    "mp-weui": "^1.0.4",
     "mpvue": "^1.0.10",
     "net": "^1.0.2",
     "tls": "0.0.1",
