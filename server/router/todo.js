@@ -5,8 +5,13 @@ const validator = require('../middleware/validator')
 const todo = require('../controller').todo
 
 module.exports = async(router) => {
-  router.get('/api/todos', async(req, res) => {
-    const resp = await todo.list()
+  router.get('/api/todos', validator({
+    query: joi.object().keys({
+      status: joi.number().allow([1, 2])
+    })
+  }), async(req, res) => {
+    const status = req.query.status || 1
+    const resp = await todo.list(status)
     res.jsonp(resp)
   })
 

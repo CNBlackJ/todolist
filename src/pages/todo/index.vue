@@ -1,23 +1,26 @@
 <template>
-  <div>
-    <h1>TODO LIST</h1>
-    <mp-cell-group title="todolist">
-      <mp-field
-        placeholder="输入代办事项..."
-        type="string"
-        v-model="newTodo"
-      />
-    </mp-cell-group>
+  <div class="todo_list">
+    <div class="weui-cells weui-cells_after-title">
+      <mp-cell-group title="todolist">
+        <mp-field
+          placeholder="输入代办事项..."
+          type="string"
+          v-model="newTodo"
+        />
+      </mp-cell-group>
+    </div>
     <mp-checklist
-      v-model="vals"
+      v-model="checkedTodos"
+      :title="todos"
       :options="todoList"
-      @click="removeTodo"
+      :checked="checkDone()"
     />
-    <button @click="addTodo">ADD</button>
+    <button class="weui-btn" type="primary" @click="addTodo">添加</button>
   </div>
 </template>
 
 <script>
+  import _ from 'lodash'
   import Fly from 'flyio/dist/npm/wx'
   const fly = new Fly()
 
@@ -29,7 +32,8 @@
       return {
         newTodo: '',
         todoList: [],
-        vals: []
+        checkedTodos: [],
+        lastCheckedTodos: []
       }
     },
     components: {
@@ -47,7 +51,7 @@
         this.listTodo()
       },
       listTodo: function () {
-        fly.get('http://localhost:3001/api/todos').then(res => {
+        fly.get('http://localhost:3001/api/todos?status=1').then(res => {
           if (res && res.data && res.data.length > 0) {
             const results = []
             res.data.forEach(v => {
@@ -63,11 +67,32 @@
       },
       removeTodo: function (id) {
         fly.delete(`http://localhost:3001/api/todos/${id}`)
+      },
+      checkDone: function () {
+        const checkedTodos = this.checkedTodos
+        const lastCheckedTodos = this.lastCheckedTodos
+        if (checkedTodos.length > lastCheckedTodos.length) {
+          const id = _.difference(checkedTodos, lastCheckedTodos)
+          this.updateToDone(id[0])
+        } else {
+          const id = _.difference(lastCheckedTodos, checkedTodos)
+          this.reTodo(id[0])
+        }
+        this.lastCheckedTodos = checkedTodos
+      },
+      updateToDone: function (id) {
+        if (id) fly.put(`http://localhost:3001/api/todos/${id}`, { status: 2 })
+      },
+      reTodo: function (id) {
+        if (id) fly.put(`http://localhost:3001/api/todos/${id}`, { status: 1 })
       }
     }
   }
 </script>
 
 <style scoped>
+  .todo_list {
+    background-color: #f8f8f8;
+  }
 
 </style>
