@@ -23,6 +23,10 @@
   import _ from 'lodash'
   import Fly from 'flyio/dist/npm/wx'
   const fly = new Fly()
+  fly.interceptors.request.use((request) => {
+    request.headers['authorization'] = 'vinliToken'
+    return request
+  })
 
   import MpField from 'mp-weui/packages/field'
   import MpChecklist from 'mp-weui/packages/checklist'
