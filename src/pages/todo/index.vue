@@ -50,12 +50,12 @@
     methods: {
       addTodo: function () {
         const todo = { title: this.newTodo, status: 1 }
-        fly.post('http://localhost:3001/api/todos', todo)
+        fly.post('https://www.wifihi.cn/api/todos', todo)
         this.newTodo = ''
         this.listTodo()
       },
       listTodo: function () {
-        fly.get('http://localhost:3001/api/todos?status=1').then(res => {
+        fly.get('https://www.wifihi.cn/api/todos?status=1').then(res => {
           if (res && res.data && res.data.length > 0) {
             const results = []
             res.data.forEach(v => {
@@ -70,7 +70,8 @@
         })
       },
       removeTodo: function (id) {
-        fly.delete(`http://localhost:3001/api/todos/${id}`)
+        fly.delete(`https://www.wifihi.cn/api/todos/${id}`)
+        this.listTodo()
       },
       checkDone: function () {
         const checkedTodos = this.checkedTodos
@@ -85,10 +86,10 @@
         this.lastCheckedTodos = checkedTodos
       },
       updateToDone: function (id) {
-        if (id) fly.put(`http://localhost:3001/api/todos/${id}`, { status: 2 })
+        if (id) fly.put(`https://www.wifihi.cn/api/todos/${id}`, { status: 2 })
       },
       reTodo: function (id) {
-        if (id) fly.put(`http://localhost:3001/api/todos/${id}`, { status: 1 })
+        if (id) fly.put(`https://www.wifihi.cn/api/todos/${id}`, { status: 1 })
       }
     }
   }
