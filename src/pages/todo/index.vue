@@ -21,12 +21,7 @@
 
 <script>
   import _ from 'lodash'
-  import Fly from 'flyio/dist/npm/wx'
-  const fly = new Fly()
-  fly.interceptors.request.use((request) => {
-    request.headers['authorization'] = 'vinliToken'
-    return request
-  })
+  import { request } from '@/utils/request'
 
   import MpField from 'mp-weui/packages/field'
   import MpChecklist from 'mp-weui/packages/checklist'
@@ -37,7 +32,8 @@
         newTodo: '',
         todoList: [],
         checkedTodos: [],
-        lastCheckedTodos: []
+        lastCheckedTodos: [],
+        userInfo: {}
       }
     },
     components: {
@@ -47,49 +43,62 @@
     mounted: function () {
       this.listTodo()
     },
+    created () {
+      this.getUserInfo()
+    },
     methods: {
-      addTodo: function () {
-        const todo = { title: this.newTodo, status: 1 }
-        fly.post('https://www.wifihi.cn/api/todos', todo)
+      addTodo: async function () {
+        const todo = { title: this.newTodo, userId: this.userInfo._id }
+        await request.createTodo(todo)
         this.newTodo = ''
         this.listTodo()
       },
-      listTodo: function () {
-        fly.get('https://www.wifihi.cn/api/todos?status=1').then(res => {
-          if (res && res.data && res.data.length > 0) {
-            const results = []
-            res.data.forEach(v => {
-              results.push({
-                label: v.title,
-                value: v._id,
-                disabled: v.status === 1
-              })
-            })
-            this.todoList = results
-          }
-        })
-      },
-      removeTodo: function (id) {
-        fly.delete(`https://www.wifihi.cn/api/todos/${id}`)
-        this.listTodo()
+      listTodo: async function () {
+        const status = 1
+        const userId = this.userInfo._id
+        const todos = await request.listTodo(status, userId)
+        if (todos.length) {
+          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
+        }
       },
       checkDone: function () {
         const checkedTodos = this.checkedTodos
         const lastCheckedTodos = this.lastCheckedTodos
         if (checkedTodos.length > lastCheckedTodos.length) {
           const id = _.difference(checkedTodos, lastCheckedTodos)
-          this.updateToDone(id[0])
+          if (id.length) {
+            const resp = request.moveToDone(id[0])
+            if (resp) {
+              this.listTodo()
+            }
+          }
         } else {
           const id = _.difference(lastCheckedTodos, checkedTodos)
-          this.reTodo(id[0])
+          if (id.length) {
+            const resp = request.reTodo(id[0])
+            if (resp) {
+              this.listTodo()
+            }
+          }
         }
         this.lastCheckedTodos = checkedTodos
       },
-      updateToDone: function (id) {
-        if (id) fly.put(`https://www.wifihi.cn/api/todos/${id}`, { status: 2 })
-      },
-      reTodo: function (id) {
-        if (id) fly.put(`https://www.wifihi.cn/api/todos/${id}`, { status: 1 })
+      getUserInfo: function () {
+        wx.login({
+          success: async (res) => {
+            const jscode = res.code
+            const openId = await request.getToken(jscode)
+            wx.getUserInfo({
+              success: async (res) => {
+                const wxUserInfo = res.userInfo
+                wxUserInfo.openId = openId
+                if (Object.keys(wxUserInfo).length) {
+                  this.userInfo = await request.createUser(wxUserInfo)
+                }
+              }
+            })
+          }
+        })
       }
     }
   }
