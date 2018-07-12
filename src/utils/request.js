@@ -42,4 +42,9 @@ export class request {
     const resp = await fly.post(`${url}/api/token`, payload)
     return resp.data.openid
   }
+
+  static async getUser (openId) {
+    const resp = await fly.get(`${url}/api/users?openId=${openId}`)
+    return resp.data
+  }
 }

@@ -1,5 +1,9 @@
 <template>
   <div class="todo_list">
+    <div class="userinfo">
+      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+    </div>
+
     <div class="weui-cells weui-cells_after-title">
       <mp-cell-group title="todolist">
         <mp-field
@@ -88,15 +92,20 @@
           success: async (res) => {
             const jscode = res.code
             const openId = await request.getToken(jscode)
-            wx.getUserInfo({
-              success: async (res) => {
-                const wxUserInfo = res.userInfo
-                wxUserInfo.openId = openId
-                if (Object.keys(wxUserInfo).length) {
-                  this.userInfo = await request.createUser(wxUserInfo)
+            const userInfo = await request.getUser(openId)
+            if (userInfo) {
+              this.userInfo = userInfo
+            } else {
+              wx.getUserInfo({
+                success: async (res) => {
+                  const wxUserInfo = res.userInfo
+                  wxUserInfo.openId = openId
+                  if (Object.keys(wxUserInfo).length) {
+                    this.userInfo = await request.createUser(wxUserInfo)
+                  }
                 }
-              }
-            })
+              })
+            }
           }
         })
       }
@@ -105,8 +114,16 @@
 </script>
 
 <style scoped>
-  .todo_list {
-    background-color: #f8f8f8;
-  }
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
 </style>
