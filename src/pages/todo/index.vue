@@ -20,6 +20,7 @@
       :checked="checkDone()"
     />
     <button class="weui-btn" type="primary" @click="addTodo">添加</button>
+    <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="login">登陆</button>
   </div>
 </template>
 
@@ -44,11 +45,11 @@
       MpField,
       MpChecklist
     },
-    mounted: function () {
+    mounted () {
       this.listTodo()
     },
     created () {
-      this.getUserInfo()
+      this.getSetting()
     },
     methods: {
       addTodo: async function () {
@@ -105,6 +106,41 @@
                   }
                 }
               })
+            }
+          }
+        })
+      },
+      login () {
+        if (wx.canIUse('button.open-type.getUserInfo')) {
+          // 用户版本可用
+          this.getSetting()
+        } else {
+          console.log('请升级微信版本')
+        }
+      },
+      bindGetUserInfo (e) {
+        if (e.mp.detail.rawData) {
+          // 用户按了允许授权按钮
+          console.log('用户按了允许授权按钮')
+          this.getSetting()
+        } else {
+          // 用户按了拒绝按钮
+          console.log('用户按了拒绝按钮')
+        }
+      },
+      getSetting () {
+        wx.getSetting({
+          success: function (res) {
+            if (res.authSetting['scope.userInfo']) {
+              wx.getUserInfo({
+                success: function (res) {
+                  console.log(res)
+                  // 用户已经授权过
+                  console.log('用户已经授权过')
+                }
+              })
+            } else {
+              console.log('用户还未授权过')
             }
           }
         })
