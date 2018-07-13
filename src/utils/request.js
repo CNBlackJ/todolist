@@ -15,8 +15,8 @@ export class request {
     return resp.data
   }
 
-  static async listTodo (status, userId) {
-    const resp = await fly.get(`${url}/api/todos?status=${status}&userId=${userId}`)
+  static async listTodo (status, openId) {
+    const resp = await fly.get(`${url}/api/todos?status=${status}&openId=${openId}`)
     return resp.data
   }
 
@@ -24,11 +24,11 @@ export class request {
     return fly.delete(`${url}/api/todos/${id}`)
   }
 
-  static moveToDone (id) {
+  static async moveToDone (id) {
     return fly.put(`${url}/api/todos/${id}`, { status: 2 })
   }
 
-  static reTodo (id) {
+  static async reTodo (id) {
     return fly.put(`${url}/api/todos/${id}`, { status: 1 })
   }
 

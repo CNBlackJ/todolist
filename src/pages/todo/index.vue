@@ -1,7 +1,9 @@
 <template>
   <div class="todo_list">
+    <mp-loadmore type="!isLogin" v-if="loadingLayer" />
+
     <div class="userinfo">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+      <img class="userinfo-avatar" :src="userInfo.avatarUrl || defaultAvatar" background-size="cover" />
     </div>
 
     <div class="weui-cells weui-cells_after-title">
@@ -17,16 +19,17 @@
       v-model="checkedTodos"
       :title="todos"
       :options="todoList"
-      :checked="checkDone()"
+      :checked="addToDone()"
     />
-    <button class="weui-btn" type="primary" @click="addTodo">添加</button>
+    <button v-if="isLogin" class="weui-btn" type="primary" @click="addTodo">添加</button>
     <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="login">登陆</button>
   </div>
 </template>
 
 <script>
-  import _ from 'lodash'
+  import MpLoadmore from 'mp-weui/packages/loadmore'
   import { request } from '@/utils/request'
+  import { wechat } from '@/utils/wechat'
 
   import MpField from 'mp-weui/packages/field'
   import MpChecklist from 'mp-weui/packages/checklist'
@@ -34,6 +37,8 @@
   export default{
     data () {
       return {
+        isLogin: false,
+        defaultAvatar: 'https://secure.gravatar.com/avatar/aac2f5df7319d9cc3eb089695857613f?s=180&d=identicon',
         newTodo: '',
         todoList: [],
         checkedTodos: [],
@@ -44,13 +49,11 @@
     },
     components: {
       MpField,
-      MpChecklist
+      MpChecklist,
+      MpLoadmore
     },
     created () {
       this.getSetting()
-    },
-    onReady () {
-      this.listTodo()
     },
     methods: {
       addTodo: async function () {
@@ -61,43 +64,18 @@
       },
       listTodo: async function () {
         const status = 1
-        let userId = this.userInfo._id
-        if (!userId) {
-          setTimeout(async () => {
-            userId = this.userInfo._id
-            console.log(userId)
-            if (userId) {
-              const todos = await request.listTodo(status, userId)
-              if (todos.length) {
-                this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
-              }
-            } else {
-              console.log('先登陆')
-            }
-          }, 1000)
+        const todos = await request.listTodo(status, this.openId)
+        if (todos.length) {
+          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
         }
       },
-      checkDone: function () {
+      async addToDone () {
         const checkedTodos = this.checkedTodos
-        const lastCheckedTodos = this.lastCheckedTodos
-        if (checkedTodos.length > lastCheckedTodos.length) {
-          const id = _.difference(checkedTodos, lastCheckedTodos)
-          if (id.length) {
-            const resp = request.moveToDone(id[0])
-            if (resp) {
-              this.listTodo()
-            }
-          }
-        } else {
-          const id = _.difference(lastCheckedTodos, checkedTodos)
-          if (id.length) {
-            const resp = request.reTodo(id[0])
-            if (resp) {
-              this.listTodo()
-            }
-          }
+        if (checkedTodos[0]) {
+          await request.moveToDone(checkedTodos[0])
+          this.listTodo()
+          this.checkedTodos = []
         }
-        this.lastCheckedTodos = checkedTodos
       },
       fetchUserInfo: function () {
         wx.getUserInfo({
@@ -139,27 +117,27 @@
           console.log('用户按了拒绝按钮')
         }
       },
-      getSetting: function () {
-        wx.login({
-          success: async (res) => {
-            const jscode = res.code
-            this.openId = await request.getToken(jscode)
-            const userInfo = await request.getUser(this.openId)
-            if (userInfo) {
-              this.userInfo = userInfo
-            } else {
-              wx.getUserInfo({
-                success: async (res) => {
-                  const wxUserInfo = res.userInfo
-                  wxUserInfo.openId = this.openId
-                  if (Object.keys(wxUserInfo).length) {
-                    this.userInfo = await request.createUser(wxUserInfo)
-                  }
-                }
-              })
-            }
+      async getSetting () {
+        const resp = await wechat.login()
+        const jscode = resp.code
+        const openId = await request.getToken(jscode)
+        this.openId = openId
+        const userInfo = await request.getUser(openId)
+        const todos = await request.listTodo(1, openId)
+        if (todos.length) {
+          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
+        }
+        if (userInfo) {
+          this.userInfo = userInfo
+        } else {
+          const res = await wechat.getUserInfo()
+          const wxUserInfo = res.userInfo
+          wxUserInfo.openId = openId
+          if (Object.keys(wxUserInfo).length) {
+            this.userInfo = await request.createUser(wxUserInfo)
           }
-        })
+        }
+        this.isLogin = true
       }
     }
   }
