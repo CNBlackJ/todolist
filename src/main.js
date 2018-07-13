@@ -21,13 +21,19 @@ export default {
     tabBar: {
       list: [{
         pagePath: 'pages/todo/main',
-        text: '待办'
+        text: '待办',
+        iconPath: 'static/images/todo.png',
+        selectedIconPath: 'static/images/todo_selected.png'
       }, {
         pagePath: 'pages/done/main',
-        text: '已完成'
+        text: '已完成',
+        iconPath: 'static/images/done.png',
+        selectedIconPath: 'static/images/done_selected.png'
       }, {
         pagePath: 'pages/index/main',
-        text: '我的'
+        text: '我',
+        iconPath: 'static/images/user.png',
+        selectedIconPath: 'static/images/user_selected.png'
       }]
     }
   }
