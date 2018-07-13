@@ -30,7 +30,7 @@ export default {
         iconPath: 'static/images/done.png',
         selectedIconPath: 'static/images/done_selected.png'
       }, {
-        pagePath: 'pages/index/main',
+        pagePath: 'pages/profile/main',
         text: '我',
         iconPath: 'static/images/user.png',
         selectedIconPath: 'static/images/user_selected.png'

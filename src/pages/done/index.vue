@@ -3,12 +3,9 @@
     <mp-checklist
       v-model="checkedTodos"
       :title="todos"
-      :options="todoList"
+      :options="doneList"
       :checked="reTodo()"
     />
-    <h3>
-      {{ count }}
-    </h3>
 	</div>
 </template>
 
@@ -17,24 +14,20 @@
   import MpChecklist from 'mp-weui/packages/checklist'
 
   export default {
-    data () {
-      return {
-        todoList: [],
-        count: 0
+    computed: {
+      doneList () {
+        return store.state.done.doneList
       }
     },
     components: {
       MpChecklist
     },
     onShow () {
-      this.listTodo()
+      this.listDone()
     },
     methods: {
-      listTodo () {
-        this.todoList = [
-          { label: 'a', value: 1, disabled: true }
-        ]
-        this.count = store.state.counter.count
+      listDone () {
+        store.commit('done/listDone')
       },
       reTodo () {
         console.log('reTodo')
