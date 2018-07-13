@@ -1,5 +1,5 @@
 <template>
-  <div class="todo_list">
+  <div class="todo">
     <mp-loadmore type="!isLogin" v-if="loadingLayer" />
 
     <div class="userinfo">
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-  import MpLoadmore from 'mp-weui/packages/loadmore'
   import { request } from '@/utils/request'
   import { wechat } from '@/utils/wechat'
 
+  import MpLoadmore from 'mp-weui/packages/loadmore'
   import MpField from 'mp-weui/packages/field'
   import MpChecklist from 'mp-weui/packages/checklist'
 

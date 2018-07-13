@@ -15,8 +15,20 @@ export default {
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '备忘录',
       navigationBarTextStyle: 'black'
+    },
+    tabBar: {
+      list: [{
+        pagePath: 'pages/todo/main',
+        text: '待办'
+      }, {
+        pagePath: 'pages/done/main',
+        text: '已完成'
+      }, {
+        pagePath: 'pages/index/main',
+        text: '我的'
+      }]
     }
   }
 }

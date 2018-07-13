@@ -12,20 +12,20 @@
 
 <script>
 // Use Vuex
-import store from './store'
+import store from '@/store/index'
 
 export default {
   computed: {
     count () {
-      return store.state.count
+      return store.state.counter.count
     }
   },
   methods: {
     increment () {
-      store.commit('increment')
+      store.commit('counter/increment')
     },
     decrement () {
-      store.commit('decrement')
+      store.commit('counter/decrement')
     }
   }
 }
