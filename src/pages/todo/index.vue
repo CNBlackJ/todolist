@@ -38,18 +38,19 @@
         todoList: [],
         checkedTodos: [],
         lastCheckedTodos: [],
-        userInfo: {}
+        userInfo: {},
+        openId: ''
       }
     },
     components: {
       MpField,
       MpChecklist
     },
-    mounted () {
-      this.listTodo()
-    },
     created () {
       this.getSetting()
+    },
+    onReady () {
+      this.listTodo()
     },
     methods: {
       addTodo: async function () {
@@ -60,10 +61,20 @@
       },
       listTodo: async function () {
         const status = 1
-        const userId = this.userInfo._id
-        const todos = await request.listTodo(status, userId)
-        if (todos.length) {
-          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
+        let userId = this.userInfo._id
+        if (!userId) {
+          setTimeout(async () => {
+            userId = this.userInfo._id
+            console.log(userId)
+            if (userId) {
+              const todos = await request.listTodo(status, userId)
+              if (todos.length) {
+                this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
+              }
+            } else {
+              console.log('先登陆')
+            }
+          }, 1000)
         }
       },
       checkDone: function () {
@@ -88,24 +99,13 @@
         }
         this.lastCheckedTodos = checkedTodos
       },
-      getUserInfo: function () {
-        wx.login({
+      fetchUserInfo: function () {
+        wx.getUserInfo({
           success: async (res) => {
-            const jscode = res.code
-            const openId = await request.getToken(jscode)
-            const userInfo = await request.getUser(openId)
-            if (userInfo) {
-              this.userInfo = userInfo
-            } else {
-              wx.getUserInfo({
-                success: async (res) => {
-                  const wxUserInfo = res.userInfo
-                  wxUserInfo.openId = openId
-                  if (Object.keys(wxUserInfo).length) {
-                    this.userInfo = await request.createUser(wxUserInfo)
-                  }
-                }
-              })
+            const wxUserInfo = res.userInfo
+            wxUserInfo.openId = this.openId
+            if (Object.keys(wxUserInfo).length) {
+              this.userInfo = await request.createUser(wxUserInfo)
             }
           }
         })
@@ -113,7 +113,18 @@
       login () {
         if (wx.canIUse('button.open-type.getUserInfo')) {
           // 用户版本可用
-          this.getSetting()
+          wx.login({
+            success: async (res) => {
+              const jscode = res.code
+              this.openId = await request.getToken(jscode)
+              const userInfo = await request.getUser(this.openId)
+              if (userInfo) {
+                this.userInfo = userInfo
+              } else {
+                this.fetchUserInfo()
+              }
+            }
+          })
         } else {
           console.log('请升级微信版本')
         }
@@ -128,19 +139,24 @@
           console.log('用户按了拒绝按钮')
         }
       },
-      getSetting () {
-        wx.getSetting({
-          success: function (res) {
-            if (res.authSetting['scope.userInfo']) {
+      getSetting: function () {
+        wx.login({
+          success: async (res) => {
+            const jscode = res.code
+            this.openId = await request.getToken(jscode)
+            const userInfo = await request.getUser(this.openId)
+            if (userInfo) {
+              this.userInfo = userInfo
+            } else {
               wx.getUserInfo({
-                success: function (res) {
-                  console.log(res)
-                  // 用户已经授权过
-                  console.log('用户已经授权过')
+                success: async (res) => {
+                  const wxUserInfo = res.userInfo
+                  wxUserInfo.openId = this.openId
+                  if (Object.keys(wxUserInfo).length) {
+                    this.userInfo = await request.createUser(wxUserInfo)
+                  }
                 }
               })
-            } else {
-              console.log('用户还未授权过')
             }
           }
         })

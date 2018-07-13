@@ -45,6 +45,6 @@ export class request {
 
   static async getUser (openId) {
     const resp = await fly.get(`${url}/api/users?openId=${openId}`)
-    return resp.data
+    return resp.data[0]
   }
 }
