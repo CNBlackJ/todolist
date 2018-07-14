@@ -6,7 +6,6 @@
       :options="doneList"
       :checked="reTodo()"
     />
-    <button @click="listDoneData">aaa</button>
   </div>
 </template>
 
@@ -25,13 +24,13 @@
     components: {
       MpChecklist
     },
+    onShow () {
+      this.listDone()
+    },
     methods: {
       ...mapActions('done', [
         'listDone'
       ]),
-      async listDoneData () {
-        await this.listDone({ openId: 0 })
-      },
       reTodo () {
         console.log('reTodo')
       }

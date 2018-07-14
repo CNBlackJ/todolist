@@ -19,6 +19,7 @@
     "joi": "^13.3.0",
     "lodash": "^4.17.10",
     "lowdb": "^1.0.0",
+    "mint-ui": "^2.2.13",
     "mongoose": "^5.1.2",
     "mongoose-timestamp": "^0.6.0",
     "mp-weui": "^1.0.4",

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import counter from '../pages/counter/store'
 import done from '../pages/done/store'
+import todo from '../pages/todo/store'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,10 @@ const store = new Vuex.Store({
     done: {
       namespaced: true,
       ...done
+    },
+    todo: {
+      namespaced: true,
+      ...todo
     }
   }
 })

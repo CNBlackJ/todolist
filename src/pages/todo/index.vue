@@ -1,9 +1,9 @@
 <template>
   <div class="todo">
-    <mp-loadmore type="!isLogin" v-if="loadingLayer" />
+    <mp-loadmore type="loading" v-if="!isLogin" />
 
     <div class="userinfo">
-      <img class="userinfo-avatar" :src="userInfo.avatarUrl || defaultAvatar" background-size="cover" />
+      <img class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover" />
     </div>
 
     <div class="weui-cells weui-cells_after-title">
@@ -15,36 +15,41 @@
         />
       </mp-cell-group>
     </div>
+
     <mp-checklist
       v-model="checkedTodos"
-      :title="todos"
+      max=1
+      :title="todoTitle"
       :options="todoList"
-      :checked="addToDone()"
+      :checked="addToDoneData()"
     />
-    <button v-if="isLogin" class="weui-btn" type="primary" @click="addTodo">添加</button>
-    <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="login">登陆</button>
+    <button class="mint-button mint-button--primary mint-button--large" @click="addTodoData">添加</button>
+    <button v-if="!isLogin" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="login">登陆</button>
   </div>
 </template>
 
 <script>
-  import { request } from '@/utils/request'
-  import { wechat } from '@/utils/wechat'
+  import store from '@/store/index'
+  import { mapState, mapActions } from 'vuex'
 
   import MpLoadmore from 'mp-weui/packages/loadmore'
   import MpField from 'mp-weui/packages/field'
   import MpChecklist from 'mp-weui/packages/checklist'
 
-  export default{
+  export default {
+    store,
+    computed: {
+      ...mapState('todo', {
+        userInfo: state => state.userInfo,
+        todoList: state => state.todoList,
+        isLogin: state => state.isLogin,
+        todoTitle: state => state.todoTitle
+      })
+    },
     data () {
       return {
-        isLogin: false,
-        defaultAvatar: 'https://secure.gravatar.com/avatar/aac2f5df7319d9cc3eb089695857613f?s=180&d=identicon',
         newTodo: '',
-        todoList: [],
-        checkedTodos: [],
-        lastCheckedTodos: [],
-        userInfo: {},
-        openId: ''
+        checkedTodos: []
       }
     },
     components: {
@@ -52,59 +57,17 @@
       MpChecklist,
       MpLoadmore
     },
-    created () {
+    onShow () {
       this.getSetting()
     },
     methods: {
-      async addTodo () {
-        const todo = { title: this.newTodo, userId: this.userInfo._id }
-        await request.createTodo(todo)
-        this.newTodo = ''
-        this.listTodo()
-      },
-      async listTodo () {
-        const status = 1
-        const todos = await request.listTodo(status, this.openId)
-        this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
-      },
-      async addToDone () {
-        const checkedTodos = this.checkedTodos
-        if (checkedTodos[0]) {
-          await request.moveToDone(checkedTodos[0])
-          this.listTodo()
-          this.checkedTodos = []
-        }
-      },
-      fetchUserInfo () {
-        wx.getUserInfo({
-          success: async (res) => {
-            const wxUserInfo = res.userInfo
-            wxUserInfo.openId = this.openId
-            if (Object.keys(wxUserInfo).length) {
-              this.userInfo = await request.createUser(wxUserInfo)
-            }
-          }
-        })
-      },
-      login () {
-        if (wx.canIUse('button.open-type.getUserInfo')) {
-          // 用户版本可用
-          wx.login({
-            success: async (res) => {
-              const jscode = res.code
-              this.openId = await request.getToken(jscode)
-              const userInfo = await request.getUser(this.openId)
-              if (userInfo) {
-                this.userInfo = userInfo
-              } else {
-                this.fetchUserInfo()
-              }
-            }
-          })
-        } else {
-          console.log('请升级微信版本')
-        }
-      },
+      ...mapActions('todo', [
+        'getUserInfo',
+        'login',
+        'getTodoList',
+        'addTodo',
+        'addToDone'
+      ]),
       bindGetUserInfo (e) {
         if (e.mp.detail.rawData) {
           // 用户按了允许授权按钮
@@ -115,27 +78,32 @@
           console.log('用户按了拒绝按钮')
         }
       },
+      async getUserInfoDate () {
+        this.getUserInfo()
+      },
+      async loginDate () {
+        this.login()
+      },
+      async addTodoData () {
+        const title = this.newTodo
+        this.addTodo({ title }).then(() => {
+          this.getTodoList()
+          this.newTodo = ''
+        })
+      },
+      async addToDoneData () {
+        const doneId = this.checkedTodos[0]
+        if (doneId) {
+          this.addToDone({ doneId }).then(() => {
+            this.getTodoList()
+            this.checkedTodos = []
+          })
+        }
+      },
       async getSetting () {
-        const resp = await wechat.login()
-        const jscode = resp.code
-        const openId = await request.getToken(jscode)
-        this.openId = openId
-        const userInfo = await request.getUser(openId)
-        const todos = await request.listTodo(1, openId)
-        if (todos.length) {
-          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
-        }
-        if (userInfo) {
-          this.userInfo = userInfo
-        } else {
-          const res = await wechat.getUserInfo()
-          const wxUserInfo = res.userInfo
-          wxUserInfo.openId = openId
-          if (Object.keys(wxUserInfo).length) {
-            this.userInfo = await request.createUser(wxUserInfo)
-          }
-        }
-        this.isLogin = true
+        this.login().then(() => {
+          this.getTodoList()
+        })
       }
     }
   }
@@ -153,5 +121,9 @@
   height: 128rpx;
   margin: 20rpx;
   border-radius: 50%;
+}
+
+.todo {
+  padding: 0 5%;
 }
 </style>
