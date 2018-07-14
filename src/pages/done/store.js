@@ -5,16 +5,21 @@ const state = {
 }
 
 const mutations = {
-  async listDone (state) {
-    const status = 2
-    const todos = await request.listTodo(status, 'o7OMH0ZfDiW8d_kfu3DGi09OhWkU')
-    if (todos.length) {
-      state.doneList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 2 } })
-    }
+  listDone (state, { doneList }) {
+    state.doneList = doneList
+  }
+}
+
+const actions = {
+  async listDone ({ state, commit }, { openId }) {
+    const todos = await request.listTodo(2, openId || 'o7OMH0ZfDiW8d_kfu3DGi09OhWkU')
+    const doneList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 2 } })
+    commit('listDone', { doneList })
   }
 }
 
 export default {
   state,
-  mutations
+  mutations,
+  actions
 }

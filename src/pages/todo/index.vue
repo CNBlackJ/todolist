@@ -56,18 +56,16 @@
       this.getSetting()
     },
     methods: {
-      addTodo: async function () {
+      async addTodo () {
         const todo = { title: this.newTodo, userId: this.userInfo._id }
         await request.createTodo(todo)
         this.newTodo = ''
         this.listTodo()
       },
-      listTodo: async function () {
+      async listTodo () {
         const status = 1
         const todos = await request.listTodo(status, this.openId)
-        if (todos.length) {
-          this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
-        }
+        this.todoList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 1 } })
       },
       async addToDone () {
         const checkedTodos = this.checkedTodos
@@ -77,7 +75,7 @@
           this.checkedTodos = []
         }
       },
-      fetchUserInfo: function () {
+      fetchUserInfo () {
         wx.getUserInfo({
           success: async (res) => {
             const wxUserInfo = res.userInfo
