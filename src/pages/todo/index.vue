@@ -57,8 +57,11 @@
       MpChecklist,
       MpLoadmore
     },
-    onShow () {
+    created () {
       this.getSetting()
+    },
+    onShow () {
+      this.getTodoList()
     },
     methods: {
       ...mapActions('todo', [
