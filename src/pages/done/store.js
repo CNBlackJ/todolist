@@ -15,6 +15,9 @@ const actions = {
     const todos = await request.listTodo(2, rootState.todo.openId)
     const doneList = todos.map(t => { return { label: t.title, value: t._id, disabled: t.status === 2 } })
     commit('listDone', { doneList })
+  },
+  async reTodo ({ state, commit }, { reTodoId }) {
+    if (reTodoId) await request.reTodo(reTodoId)
   }
 }
 

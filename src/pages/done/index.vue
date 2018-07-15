@@ -1,10 +1,11 @@
 <template>
 	<div class="done">
     <mp-checklist
-      v-model="checkedTodos"
+      v-model="checkedDones"
+      max=1
       :title="todos"
       :options="doneList"
-      :checked="reTodo()"
+      :checked="reTodoData()"
     />
   </div>
 </template>
@@ -21,6 +22,11 @@
         doneList: state => state.done.doneList
       })
     },
+    data () {
+      return {
+        checkedDones: []
+      }
+    },
     components: {
       MpChecklist
     },
@@ -29,10 +35,17 @@
     },
     methods: {
       ...mapActions('done', [
-        'listDone'
+        'listDone',
+        'reTodo'
       ]),
-      reTodo () {
-        console.log('reTodo')
+      async reTodoData () {
+        const reTodoId = this.checkedDones[0]
+        if (reTodoId) {
+          this.reTodo({ reTodoId }).then(() => {
+            this.listDone()
+            this.checkedDones = []
+          })
+        }
       }
     }
   }
