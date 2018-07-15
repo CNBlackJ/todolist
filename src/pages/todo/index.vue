@@ -24,10 +24,10 @@
         :options="todoList"
         :checked="addToDoneData()"
       />
-      <button class="mint-button mint-button--primary mint-button--large" @click="addTodoData">添加</button>
+      <button class="weui-btn" type="primary" @click="addTodoData">添加</button>
     </div>
 
-    <button v-if="!isLogin" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">登陆</button>
+    <button class="btn-login mint-button mint-button--primary mint-button--large" v-if="!isLogin" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">登陆</button>
   </div>
 </template>
 
@@ -52,7 +52,8 @@
     data () {
       return {
         newTodo: '',
-        checkedTodos: []
+        checkedTodos: [],
+        grids: [0, 1]
       }
     },
     components: {
@@ -127,5 +128,9 @@
 
 .todo {
   padding: 0 5%;
+}
+
+.btn-login {
+  margin: 50% 0;
 }
 </style>
