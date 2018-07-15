@@ -1,6 +1,7 @@
 <template>
 	<div class="done">
     <mp-checklist
+      v-if="isLogin"
       v-model="checkedDones"
       max=1
       :title="todos"
@@ -19,7 +20,8 @@
     store,
     computed: {
       ...mapState({
-        doneList: state => state.done.doneList
+        doneList: state => state.done.doneList,
+        isLogin: state => state.todo.isLogin
       })
     },
     data () {

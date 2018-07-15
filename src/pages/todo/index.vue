@@ -1,30 +1,33 @@
 <template>
   <div class="todo">
-    <mp-loadmore type="loading" v-if="!isLogin" />
+    <div v-if="isLogin">
+      <mp-loadmore type="loading" v-if="!isLogin" />
 
-    <div class="userinfo">
-      <img class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover" />
+      <div class="userinfo">
+        <img class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover" />
+      </div>
+  
+      <div class="weui-cells weui-cells_after-title">
+        <mp-cell-group title="todolist">
+          <mp-field
+            placeholder="输入代办事项..."
+            type="string"
+            v-model="newTodo"
+          />
+        </mp-cell-group>
+      </div>
+  
+      <mp-checklist
+        v-model="checkedTodos"
+        max=1
+        :title="todoTitle"
+        :options="todoList"
+        :checked="addToDoneData()"
+      />
+      <button class="mint-button mint-button--primary mint-button--large" @click="addTodoData">添加</button>
     </div>
 
-    <div class="weui-cells weui-cells_after-title">
-      <mp-cell-group title="todolist">
-        <mp-field
-          placeholder="输入代办事项..."
-          type="string"
-          v-model="newTodo"
-        />
-      </mp-cell-group>
-    </div>
-
-    <mp-checklist
-      v-model="checkedTodos"
-      max=1
-      :title="todoTitle"
-      :options="todoList"
-      :checked="addToDoneData()"
-    />
-    <button class="mint-button mint-button--primary mint-button--large" @click="addTodoData">添加</button>
-    <button v-if="!isLogin" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="login">登陆</button>
+    <button v-if="!isLogin" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">登陆</button>
   </div>
 </template>
 
@@ -74,7 +77,6 @@
       bindGetUserInfo (e) {
         if (e.mp.detail.rawData) {
           // 用户按了允许授权按钮
-          console.log('用户按了允许授权按钮')
           this.getSetting()
         } else {
           // 用户按了拒绝按钮
@@ -83,9 +85,6 @@
       },
       async getUserInfoDate () {
         this.getUserInfo()
-      },
-      async loginDate () {
-        this.login()
       },
       async addTodoData () {
         const title = this.newTodo

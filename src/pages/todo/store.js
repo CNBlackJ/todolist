@@ -39,13 +39,14 @@ const actions = {
   async login ({ state, commit }) {
     const jscode = (await wechat.login()).code
     const openId = await request.getToken(jscode)
-    let userInfo = await request.getUser(openId)
-    if (!userInfo) {
-      userInfo = (await wechat.getUserInfo()).userInfo
+    const authSetting = (await wechat.getSetting()).authSetting
+    if (openId && authSetting['scope.userInfo']) {
+      commit('login')
+      let userInfo = await request.getUser(openId)
+      if (!userInfo) userInfo = (await wechat.getUserInfo()).userInfo
+      commit('setUserInfo', { userInfo })
+      commit('setOpenId', { openId })
     }
-    commit('setUserInfo', { userInfo })
-    commit('setOpenId', { openId })
-    if (openId) commit('login')
   },
   async getTodoList ({ state, commit }) {
     const todos = (await request.listTodo(1, state.openId)) || []

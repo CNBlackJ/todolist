@@ -1,6 +1,6 @@
 <template>
-	<div class="container" @click="clickHandle('test click', $event)">
-		<div class="userinfo" @click="bindViewTap">
+	<div class="container">
+		<div class="usernfo" @click="bindViewTap">
 			<img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
 			<div class="userinfo-nickname">
 				<card :text="userInfo.nickName"></card>
@@ -11,43 +11,25 @@
 	
 <script>
   import card from '@/components/card'
+  import { mapState } from 'vuex'
+  import store from '@/store/index'
 
   export default {
-    data () {
-      return {
-        userInfo: {}
-      }
-    },
-
+    store,
     components: {
       card
+    },
+    computed: {
+      ...mapState({
+        userInfo: state => state.todo.userInfo
+      })
     },
 
     methods: {
       bindViewTap () {
         const url = '../logs/main'
         wx.navigateTo({ url })
-      },
-      getUserInfo () {
-        // 调用登录接口
-        wx.login({
-          success: () => {
-            wx.getUserInfo({
-              success: (res) => {
-                this.userInfo = res.userInfo
-              }
-            })
-          }
-        })
-      },
-      clickHandle (msg, ev) {
-        console.log('clickHandle:', msg, ev)
       }
-    },
-
-    created () {
-      // 调用应用实例的方法获取全局数据
-      this.getUserInfo()
     }
   }
 </script>
