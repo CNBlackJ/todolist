@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<div class="usernfo" @click="bindViewTap">
+		<div class="userinfo" @click="bindViewTap">
 			<img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
 			<div class="userinfo-nickname">
 				<card :text="userInfo.nickName"></card>
