@@ -2,7 +2,7 @@
   <div class="prod-card">
     <div class="user-info">
       <div class="user-avatar-container">
-        <img :src="avatarUrl" class="user-avatar">
+        <img src="/static/images/avatar.png" class="user-avatar">
       </div>
       <div class="user-name-container">
         <span class="user-name">
@@ -14,11 +14,19 @@
       </div>
     </div>
     <div class="prod-img-container">
-      <img :src="prodImg" class="prod-img">
+      <img src="/static/images/prod_cat.png" class="prod-img">
     </div>
-    <div class="prod-info">
+    <div class="prod-info-container">
       <div class="prod-name">
         {{prodName}}
+      </div>
+      <div class="prod-detail">
+        <span class="prod-price">
+          ¥{{price}}
+        </span>
+        <span class="prod-sales">
+          月销：{{sales}}
+        </span>
       </div>
     </div>
   </div>
@@ -28,11 +36,9 @@
   export default {
     data () {
       return {
-        avatarUrl: 'https://avatars2.githubusercontent.com/u/21023227?s=460&v=4',
         userName: '北京的豪猪',
         address: '广东广州',
-        prodImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1532177589335&di=de1c9db862e7f609a58e60d1cc31cd51&imgtype=0&src=http%3A%2F%2Fp1.music.126.net%2FhwyKpK8cPuPtVsRSqGczLA%3D%3D%2F109951163327562467.jpg',
-        prodName: '美国进口猫粮',
+        prodName: '【进口】美国进口猫粮',
         price: 99.99,
         sales: 999
       }
@@ -49,8 +55,9 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 46%;
     height: 220px;
+    margin: 2%;
   }
 
   .prod-img-container {
@@ -81,6 +88,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 100%;
   }
 
   .user-name {
@@ -89,6 +97,40 @@
   }
   
   .user-address {
+    color: #bdbaba;
+    font-size: 8px;
+    margin-left: auto;
+    padding-right: 3px;
+  }
+
+  .prod-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .prod-name {
+    font-size: 12px;
+    color: black;
+    padding: 6px;
+  }
+
+  .prod-detail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+  }
+
+  .prod-price {
+    padding: 0 6px;
+  }
+
+  .prod-sales {
+    padding: 0 6px;
+    margin-left: auto;
+    font-size: 10px;
     color: #bdbaba;
   }
 

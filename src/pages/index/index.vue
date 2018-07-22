@@ -6,7 +6,7 @@
     </div>
     
     <div class="prod-cards">
-      <prodCard></prodCard>
+      <prodCard v-for="i in 19" :key="i" ></prodCard>
     </div>
   </div>
 </template>
@@ -40,10 +40,17 @@
 
   .top-header {
     background-color: white;
+    position:fixed;
+    top:0;
+    width:100%;
   }
 
   .prod-cards {
-    padding: 20rpx;
     background-color: #efefef;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    padding-top: 63px;
   }
 </style>
