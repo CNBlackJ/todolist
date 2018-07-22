@@ -1,37 +1,48 @@
 <template>
 	<div class="search-container">
-    <mp-search 
-      @confirm="onSearchConfirm"
-      @change="onSearchChange"
-      :placeholder="searchHolder"
+    <input
+      type="text"
+      class="search"
+      :placeholder="isFocus ? '' : searchHolder"
+      v-model="searchText" 
+      @input="sourceChange" 
+      @confirm="onSearchConfirm" 
+      @focus="isFocus = true"
+      @blur="isFocus = false"
     />
 	</div>
 </template>
 
 <script>
-import MpSearch from 'mp-weui/packages/search'
 
 export default {
   data () {
     return {
-      searchHolder: '大家都在搜\'猫粮\''
+      searchHolder: '大家都在搜\'猫粮\'',
+      searchText: '',
+      isFocus: false
     }
-  },
-  components: {
-    MpSearch
   },
   methods: {
     onSearchConfirm () {
       console.log('confirm')
     },
-    onSearchChange (v) {
-      console.log(`type: ${v}`)
+    sourceChange (v) {
+      console.log(JSON.stringify(v))
     }
   }
 }
 </script>
 
 <style>
+  .search-container {
+    padding: 0 20rpx;
+  }
 
+  .search {
+    border-radius: 50rpx;
+    background-color: #efefef;
+    height: 60rpx;
+  }
 </style>
 	

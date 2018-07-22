@@ -5,9 +5,9 @@
         <img :src="avatarUrl" class="user-avatar">
       </div>
       <div class="user-name">
-        <span>
+        <p>
           {{userName}}
-        </span>
+        </p>
       </div>
     </div>
     <img :src="prodImg" class="prod-img">
@@ -36,13 +36,6 @@
 </script>
 
 <style>
-  .col-6 {
-    width: 50%;
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-  }
-
   .prod-card {
     background-color: #FFFFFF;
     line-height: 20px;
@@ -51,6 +44,8 @@
     font-size: 14px;
     text-align: center;
     font-family: -apple-system;
+    display: flex;
+    flex-direction: column;
   }
 
   .user-info {
@@ -74,23 +69,6 @@
     line-height: 20px;
     color: rgba(16, 16, 16, 1);
     font-size: 14px;
-    text-align: center;
-    font-family: -apple-system;
-
-  }
-
-  .prod-img {
-
-  }
-
-  .prod-name {
-    left: 13px;
-    top: 483px;
-    width: 71px;
-    height: 23px;
-    line-height: 17px;
-    color: rgba(16, 16, 16, 1);
-    font-size: 12px;
     text-align: center;
     font-family: -apple-system;
   }

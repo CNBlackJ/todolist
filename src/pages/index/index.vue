@@ -1,10 +1,12 @@
 <template>
   <div class="container">
-    <!-- <searchBar></searchBar> -->
-    <typeBar></typeBar>
+    <div class="top-header">
+      <searchBar></searchBar>
+      <typeBar></typeBar>
+    </div>
     
-    <div v-for="i in 7" :key="i" class="prod-cards">
-      <prodCard></prodCard>
+    <div class="prod-cards">
+      <prodCard v-for="i in 7" :key="i" ></prodCard>
     </div>
   </div>
 </template>
@@ -30,16 +32,18 @@
 
 <style scoped>
   .container {
-    padding: 0 30rpx;
-    background-color: #EFEFEF;
+    background-color: white;
     display: flex;
     flex-direction: column;
     text-align: center;
   }
 
+  .top-header {
+    background-color: white;
+  }
+
   .prod-cards {
-    padding: 8rpx;
-    display: flex;
-    align-items: center;
+    padding: 20rpx;
+    background-color: #efefef;
   }
 </style>
