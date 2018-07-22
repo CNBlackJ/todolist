@@ -21,20 +21,20 @@ export default {
     },
     tabBar: {
       list: [{
-        pagePath: 'pages/todo/main',
-        text: '待办',
-        iconPath: 'static/images/todo.png',
-        selectedIconPath: 'static/images/todo_selected.png'
+        pagePath: 'pages/index/main',
+        text: '首页',
+        iconPath: 'static/images/shop_home.png',
+        selectedIconPath: 'static/images/shop_home_selected.png'
       }, {
         pagePath: 'pages/done/main',
-        text: '已完成',
-        iconPath: 'static/images/done.png',
-        selectedIconPath: 'static/images/done_selected.png'
+        text: '购物车',
+        iconPath: 'static/images/shop_cart.png',
+        selectedIconPath: 'static/images/shop_cart_selected.png'
       }, {
         pagePath: 'pages/profile/main',
         text: '我',
-        iconPath: 'static/images/user.png',
-        selectedIconPath: 'static/images/user_selected.png'
+        iconPath: 'static/images/shop_user.png',
+        selectedIconPath: 'static/images/shop_user_selected.png'
       }]
     }
   }
