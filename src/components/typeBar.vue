@@ -1,6 +1,14 @@
 <template>
   <div class="type-bar">
-    <a class="type-btn" href="#" v-for="(item, index) in columns" :key="index">{{item}}</a>
+    <div
+      v-for="(item, index) in columns"
+      :key="index"
+      @click="choice(index)"
+      :class="{'type-btn-click': index === activeIndex}">
+      <a class="type-btn">
+        {{item}}
+      </a>
+    </div>
   </div>
 </template>
 
@@ -11,6 +19,12 @@
         columns: ['全部', '猫粮', '狗粮', '仓鼠', '乌龟'],
         activeIndex: 0
       }
+    },
+    methods: {
+      choice (i) {
+        this.activeIndex = i
+        console.log(`you choice: ${this.columns[i]}`)
+      }
     }
   }
 </script>
@@ -19,13 +33,16 @@
   .type-bar {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    padding: 16rpx 40rpx 0 40rpx;
   }
 
   .type-btn {
     text-decoration: none;
-    margin-right: 10rpx;
     font-size: 32rpx;
-    width: 10%;
+  }
+
+  .type-btn-click {
+    color: #cc3232;
+    box-shadow: inset 0 -3rpx 0 #cc3232;
   }
 </style>
