@@ -6,7 +6,7 @@
     </div>
     
     <div class="prod-cards">
-      <prodCard v-for="i in 7" :key="i" ></prodCard>
+      <prodCard></prodCard>
     </div>
   </div>
 </template>
