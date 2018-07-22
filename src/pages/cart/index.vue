@@ -1,13 +1,15 @@
 <template>
   <div class="cart-container">
-    <h1>
-      I am a shop_cart!!
-    </h1>
+    <cartProd></cartProd>
+    <cartProd></cartProd>
   </div>
 </template>
 
 <script>
   import { wechat } from '@/utils/wechat'
+
+  import cartProd from '@/components/cartProd'
+
   export default {
     data () {
       return {
@@ -16,10 +18,18 @@
     },
     onLoad () {
       wechat.setNavigationBarTitle('购物车')
+    },
+    components: {
+      cartProd
     }
   }
 </script>
 
 <style>
+  .cart-container {
+    background-color: #efefef;
+    height: 200px;
+    border-top: 1px solid #efefef;
+  }
   
 </style>
