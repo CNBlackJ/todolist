@@ -16,11 +16,16 @@
   import typeBar from '@/components/typeBar'
   import prodCard from '@/components/prodCard'
 
+  import { wechat } from '@/utils/wechat'
+
   export default {
     data () {
       return {
         motto: 'Hello World'
       }
+    },
+    onLoad (options) {
+      wechat.setNavigationBarTitle('皮皮宠物')
     },
     components: {
       searchBar: search,

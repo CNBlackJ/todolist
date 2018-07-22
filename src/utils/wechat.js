@@ -36,4 +36,10 @@ export class wechat {
       wx.getSetting({ success: resolve, fail: reject })
     })
   }
+
+  static setNavigationBarTitle (title) {
+    return new Promise((resolve, reject) => {
+      wx.setNavigationBarTitle({ title, success: resolve, fail: reject })
+    })
+  }
 }
