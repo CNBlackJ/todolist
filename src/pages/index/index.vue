@@ -45,9 +45,9 @@
 
   .top-header {
     background-color: white;
-    position:fixed;
-    top:0;
-    width:100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
   }
 
   .prod-cards {
