@@ -2,6 +2,8 @@
   <div class="cart-container">
     <cartProd></cartProd>
     <cartProd></cartProd>
+    <cartProd></cartProd>
+    <cartProd></cartProd>
     <div class="cart-footer">
       <div class="cart-count">
         <span>合计：</span>
@@ -43,10 +45,10 @@
 <style>
   .cart-container {
     background-color: #efefef;
-    height: 200px;
     border-top: 1px solid #efefef;
     display: flex;
     flex-direction: column;
+    height: 600px;
     width: 100%;
   }
 

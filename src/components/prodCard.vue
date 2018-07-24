@@ -2,7 +2,7 @@
   <div class="prod-card">
     <div class="user-info">
       <div class="user-avatar-container">
-        <img src="/static/images/avatar.png" class="user-avatar">
+        <img src="/static/images/avatar.png" class="user-avatar" background-size="cover">
       </div>
       <div class="user-name-container">
         <span class="user-name">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="prod-img-container">
-      <img src="/static/images/prod_cat.png" class="prod-img">
+      <img src="/static/images/prod_cat.png" class="prod-img" background-size="cover">
     </div>
     <div class="prod-info-container">
       <div class="prod-name">

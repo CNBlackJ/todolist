@@ -1,9 +1,16 @@
 <template>
-  <div class="container">
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+  <div class="profile-container">
+    <div class="profile-user-info">
+      <div class="profile-user-avatar">
+        <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
+      </div>
+      <div class="profile-user-name-score">
+        <div class="profile-user-name">
+          北京的豪猪
+        </div>
+        <div class="profile-user-score">
+          宠爱值 0
+        </div>
       </div>
     </div>
   </div>
@@ -37,37 +44,45 @@
   }
 </script>
   
-  <style scoped>
-  .userinfo {
+<style scoped>
+  .profile-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
   }
   
-  .userinfo-avatar {
+  .profile-user-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: red;
+  }
+
+  .profile-user-avatar {
+    width: 30%;
+  }
+
+  .user-avatar {
     width: 128rpx;
     height: 128rpx;
     margin: 20rpx;
     border-radius: 50%;
   }
-  
-  .userinfo-nickname {
-    color: #aaa;
+
+  .profile-user-name-score {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: white;
+    justify-content: space-around;
   }
-  
-  .form-control {
-    display: block;
-    padding: 0 12px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
+
+  .profile-user-name {
+    font-size: 16px;
   }
-  
-  .counter {
-    display: inline-block;
-    margin: 10px auto;
-    padding: 5px 10px;
-    color: blue;
-    border: 1px solid blue;
+
+  .profile-user-score {
+
   }
-  </style>
+</style>
   
