@@ -1,16 +1,64 @@
 <template>
   <div class="profile-container">
-    <div class="profile-user-info">
+    <div class="profile-userinfo">
       <div class="profile-user-avatar">
         <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
       </div>
-      <div class="profile-user-name-score">
+      <div class="profile-user-name-tags">
         <div class="profile-user-name">
           北京的豪猪
         </div>
-        <div class="profile-user-score">
-          宠爱值 0
+        <div class="profile-user-tags">
+          <span class="profile-user-score">
+            20度宠爱值
+          </span>
         </div>
+      </div>
+      <div class="profile-userinfo-setting">
+        <a class="userinfo-setting-btn">
+          修改个人信息
+        </a>
+      </div>
+    </div>
+    <div class="profile-collection">
+      <a class="profile-collect-btn" @click="collect">
+        <p>10</p>
+        <span>收藏夹</span>
+      </a>
+      <a class="profile-tracks-btn" @click="tracks">
+        <p>20</p>
+        <span>足迹</span>
+      </a>
+    </div>
+    <div class="profile-order-panel">
+      <div class="order-panel-title">
+        <span class="order-panel-title-left">我的订单</span>
+        <div class="order-panel-title-right">
+          <span>查看更多订单</span>
+          <span>></span>
+        </div>
+      </div>
+      <div class="order-panel-info">
+        <a class="order-wait-pay">
+          <img class="img-wait-pay" src="/static/images/wait_pay.png" background-size="cover">
+          <p>待支付</p>
+        </a>
+        <a class="order-wait-didpatch">
+          <img class="img-wait-dispatch" src="/static/images/wait_dispatch.png" background-size="cover">
+          <p>待发出</p>
+        </a>
+        <a class="order-wait-sign">
+          <img class="img-wait-sign" src="/static/images/wait_sign.png" background-size="cover">
+          <p>待签收</p>
+        </a>
+        <a class="order-wait-comment">
+          <img class="img-wait-comment" src="/static/images/wait_comment.png" background-size="cover">
+          <p>待评价</p>
+        </a>
+        <a class="order-logistic">
+          <img class="img-logistic" src="/static/images/prod_logistic.png" background-size="cover">
+          <p>物流信息</p>
+        </a>
       </div>
     </div>
   </div>
@@ -34,11 +82,21 @@
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('个人中心')
+      wx.setNavigationBarColor({
+        frontColor: '#ffffff',
+        backgroundColor: '#ff0000'
+      })
     },
     methods: {
       bindViewTap () {
         const url = '../logs/main'
         wx.navigateTo({ url })
+      },
+      tracks () {
+        console.log('you click tracks')
+      },
+      collect () {
+        console.log('you click collect')
       }
     }
   }
@@ -49,9 +107,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 600px;
+    background-color: #efefef;
   }
   
-  .profile-user-info {
+  .profile-userinfo {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -63,13 +123,13 @@
   }
 
   .user-avatar {
-    width: 128rpx;
-    height: 128rpx;
-    margin: 20rpx;
+    width: 58px;
+    height: 58px;
+    margin: 10px;
     border-radius: 50%;
   }
 
-  .profile-user-name-score {
+  .profile-user-name-tags {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -82,7 +142,137 @@
   }
 
   .profile-user-score {
+    border-radius: 10px;
+    padding: 3px 15px;
+    background-color: #8f0101;
+  }
 
+  .profile-userinfo-setting {
+    width: 100%;
+    color: white;
+    padding: 20px 0 0 20px;
+    font-size: 10px;
+  }
+
+  .profile-collection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 10px 0;
+    color: #747474;
+    background-color: white;
+  }
+
+  .profile-collect-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid #efefef;
+  }
+
+  .profile-tracks-btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-order-panel {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+  }
+
+  .order-panel-title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid #efefef;
+    padding: 5px 0;
+    align-items: center;
+  }
+
+  .order-panel-title-left {
+    padding-left: 10px;
+    font-size: 14px;
+  }
+
+  .order-panel-title-right {
+    padding-right: 10px;
+    color: #888888;
+  }
+
+  .order-panel-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+
+  .order-wait-pay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-wait-didpatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-wait-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-wait-comment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-logistic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .img-wait-pay {
+    height: 24px;
+    width: 24px;
+    padding-bottom: 8px;
+  }
+
+  .img-wait-dispatch {
+    height: 24px;
+    width: 24px;
+    padding-bottom: 8px;
+  }
+
+  .img-wait-sign {
+    height: 24px;
+    width: 24px;
+    padding-bottom: 8px;
+  }
+
+  .img-wait-comment {
+    height: 24px;
+    width: 24px;
+    padding-bottom: 8px;
+  }
+
+  .img-logistic {
+    height: 24px;
+    width: 24px;
+    padding-bottom: 8px;
   }
 </style>
   
