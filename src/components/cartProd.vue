@@ -54,25 +54,28 @@
 <style>
   .cart-prod-container {
     background-color: white;
-    padding: 0 20px;
+    padding: 0 20px 0 15px;
   }
 
   .cart-prod-detail {
     display: flex;
     flex-direction: row;
     width: 100%;
+    align-content: center;
     border-bottom: 1px solid #efefef;
   }
 
   .cart-prod-img-container {
-    height: 100px;
-    width: 50%;
-    padding: 5px;
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
   }
 
   .cart-prod-img {
-    width: 100%;
-    height: 100%;
+    width: 64px;
+    height: 64px;
+    margin: auto;
   }
 
   .cart-prod-info {
@@ -80,7 +83,7 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    padding: 5px 15px;
+    padding: 20px 0 20px 20px;
   }
 
   .cart-prod-name-price {
