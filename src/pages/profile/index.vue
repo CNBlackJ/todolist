@@ -61,11 +61,25 @@
         </a>
       </div>
     </div>
+
+    <div class="setting-panel">
+      <setting></setting>
+    </div>
+
+    <div class="recommendation">
+      <div class="recom-header">
+        <span class="recom-title">为·您·推·荐</span>
+      </div>
+      <div class="recom-prods">
+        <prodCard v-for="i in 3" :key="i"></prodCard>
+      </div>
+    </div>
   </div>
 </template>
   
 <script>
-  import card from '@/components/card'
+  import prodCard from '@/components/prodCard'
+  import setting from '@/components/setting'
   import { mapState } from 'vuex'
   import store from '@/store/index'
   import { wechat } from '@/utils/wechat'
@@ -73,7 +87,8 @@
   export default {
     store,
     components: {
-      card
+      prodCard,
+      setting
     },
     computed: {
       ...mapState({
@@ -107,7 +122,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 600px;
+    height: 100%;
     background-color: #efefef;
   }
   
@@ -198,7 +213,7 @@
   }
 
   .order-panel-title-left {
-    padding-left: 10px;
+    padding: 5px 0 5px 10px;
     font-size: 14px;
   }
 
@@ -273,6 +288,33 @@
     height: 24px;
     width: 24px;
     padding-bottom: 8px;
+  }
+
+  .recommendation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    background-color: #efefef;
+  }
+
+  .recom-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recom-title {
+    font-size: 14px;
+  }
+
+  .recom-prods {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    background-color: #efefef;
   }
 </style>
   
