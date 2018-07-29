@@ -6,7 +6,7 @@
     </div>
     
     <div class="prod-cards">
-      <prodCard v-for="i in 19" :key="i" ></prodCard>
+      <prodCard v-for="prod in prodList" :key="prod._id" :prod="prod"></prodCard>
     </div>
 
     <modal></modal>
@@ -18,11 +18,20 @@
   import typeBar from '@/components/typeBar'
   import prodCard from '@/components/prodCard'
 
-  import modal from '@/components/modal'
-
   import { wechat } from '@/utils/wechat'
 
+  import store from '@/store/index'
+  import { mapState, mapActions } from 'vuex'
+
+  import modal from '@/components/modal'
+
   export default {
+    store,
+    computed: {
+      ...mapState('index', {
+        prodList: state => state.prodList
+      })
+    },
     data () {
       return {
         motto: 'Hello World'
@@ -30,12 +39,18 @@
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('皮皮宠物')
+      this.getProdList()
     },
     components: {
       searchBar: search,
       typeBar,
       prodCard,
       modal
+    },
+    methods: {
+      ...mapActions('index', [
+        'getProdList'
+      ])
     }
   }
 </script>

@@ -6,6 +6,8 @@ import done from '../pages/done/store'
 import todo from '../pages/todo/store'
 import profile from '../pages/profile/store'
 
+import index from '../pages/index/store'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -25,6 +27,10 @@ const store = new Vuex.Store({
     profile: {
       namespaced: true,
       ...profile
+    },
+    index: {
+      namespaced: true,
+      ...index
     }
   }
 })

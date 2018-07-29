@@ -104,8 +104,7 @@
     },
     methods: {
       bindViewTap () {
-        const url = '../logs/main'
-        wx.navigateTo({ url })
+        wechat.navigateTo('../logs/main')
       },
       tracks () {
         console.log('you click tracks')

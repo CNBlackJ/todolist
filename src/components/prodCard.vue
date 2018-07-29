@@ -6,10 +6,10 @@
       </div>
       <div class="user-name-container">
         <span class="user-name">
-          {{userName}}
+          {{prod.seller.name}}
         </span>
         <span class="user-address">
-          {{address}}
+          {{prod.seller.address}}
         </span>
       </div>
     </div>
@@ -18,14 +18,14 @@
     </div>
     <div class="prod-info-container">
       <div class="prod-name">
-        {{prodName}}
+        {{prod.name}}
       </div>
       <div class="prod-detail">
         <span class="prod-price">
-          ¥{{price}}
+          ¥{{prod.price}}
         </span>
         <span class="prod-sales">
-          月销：{{sales}}
+          月销：{{prod.sales}}
         </span>
       </div>
     </div>
@@ -33,23 +33,17 @@
 </template>
 
 <script>
+  import store from '@/store/index'
+  import { wechat } from '@/utils/wechat'
+
   export default {
-    data () {
-      return {
-        userName: '北京的豪猪',
-        address: '广东广州',
-        prodName: '【进口】美国进口猫粮',
-        price: 99.99,
-        sales: 999
-      }
-    },
+    store,
+    props: [
+      'prod'
+    ],
     methods: {
       goToProdDetail () {
-        wx.navigateTo({
-          url: '../product/main',
-          success: r => console.log(r),
-          fail: e => console.log(e)
-        })
+        wechat.navigateTo('../product/main')
       }
     }
   }

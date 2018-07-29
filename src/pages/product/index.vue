@@ -101,11 +101,7 @@
         console.log('I am purchase')
       },
       goToHome () {
-        wx.switchTab({
-          url: '../index/main',
-          success: r => console.log(r),
-          fail: e => console.log(e)
-        })
+        wechat.switchTab('../index/main')
       }
     }
   }
