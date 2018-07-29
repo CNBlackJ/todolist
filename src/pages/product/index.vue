@@ -64,7 +64,7 @@
             <img class="menu-img" src="/static/images/prod_detail_collect.png" background-size="cover">
             <span>收藏</span>
           </div>
-          <div class="menu-home">
+          <div @click="goToHome" class="menu-home">
             <img class="menu-img" src="/static/images/prod_detail_home.png" background-size="cover">
             <span>首页</span>
           </div>
@@ -73,7 +73,7 @@
             <span>分享</span>
           </div>
       </div>
-      <a @click="purchase" class="menu-purchase-btn">
+      <a @click="purchase" href="/pages/todo/main" class="menu-purchase-btn">
         <span class="menu-purchase-text">立即购买</span>
       </a>
     </div>
@@ -81,7 +81,9 @@
 </template>
 
 <script>
+  import { wechat } from '@/utils/wechat'
   import prodDetail from '@/components/prodDetail'
+
   export default {
     data () {
       return {
@@ -91,9 +93,19 @@
     components: {
       prodDetail
     },
+    onLoad (options) {
+      wechat.setNavigationBarTitle('商品详情')
+    },
     methods: {
       purchase () {
         console.log('I am purchase')
+      },
+      goToHome () {
+        wx.switchTab({
+          url: '../index/main',
+          success: r => console.log(r),
+          fail: e => console.log(e)
+        })
       }
     }
   }

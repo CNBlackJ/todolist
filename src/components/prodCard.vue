@@ -1,5 +1,5 @@
 <template>
-  <div class="prod-card">
+  <div class="prod-card" @click="goToProdDetail">
     <div class="user-info">
       <div class="user-avatar-container">
         <img src="/static/images/avatar.png" class="user-avatar" background-size="cover">
@@ -41,6 +41,15 @@
         prodName: '【进口】美国进口猫粮',
         price: 99.99,
         sales: 999
+      }
+    },
+    methods: {
+      goToProdDetail () {
+        wx.navigateTo({
+          url: '../product/main',
+          success: r => console.log(r),
+          fail: e => console.log(e)
+        })
       }
     }
   }

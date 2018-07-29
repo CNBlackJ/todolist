@@ -15,15 +15,15 @@ export default {
     pages: [
       'pages/todo/main',
       'pages/logs/main',
-      'pages/index/main',
+      '^pages/index/main',
       'pages/cart/main',
       'pages/profile/main',
-      '^pages/product/main'
+      'pages/product/main'
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: '备忘录',
+      navigationBarTitleText: '皮皮宠物',
       navigationBarTextStyle: 'black'
     },
     tabBar: {

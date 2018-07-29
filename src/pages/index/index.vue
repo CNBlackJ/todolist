@@ -8,6 +8,8 @@
     <div class="prod-cards">
       <prodCard v-for="i in 19" :key="i" ></prodCard>
     </div>
+
+    <modal></modal>
   </div>
 </template>
 
@@ -15,6 +17,8 @@
   import search from '@/components/search'
   import typeBar from '@/components/typeBar'
   import prodCard from '@/components/prodCard'
+
+  import modal from '@/components/modal'
 
   import { wechat } from '@/utils/wechat'
 
@@ -30,7 +34,8 @@
     components: {
       searchBar: search,
       typeBar,
-      prodCard
+      prodCard,
+      modal
     }
   }
 </script>
