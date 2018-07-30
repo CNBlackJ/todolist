@@ -1,30 +1,57 @@
 <template>
   <div class="type-bar">
     <div
-      v-for="(item, index) in columns"
-      :key="index"
-      @click="choice(index)"
-      :class="{'type-btn-click': index === activeIndex}">
+      v-for="item in columns"
+      :key="item.key"
+      @click="choice(item)"
+      :class="{'type-btn-click': item.key === activeType}">
       <a class="type-btn">
-        {{item}}
+        {{item.name}}
       </a>
     </div>
   </div>
 </template>
 
 <script>
+  import store from '@/store/index'
+  import { mapState, mapActions } from 'vuex'
+
   export default {
+    store,
+    computed: {
+      ...mapState('index', {
+        searchType: state => state.searchType
+      })
+    },
     data () {
       return {
-        columns: ['全部', '猫粮', '狗粮', '仓鼠', '乌龟'],
-        activeIndex: 0
+        columns: [
+          { _id: 1, key: 'all', name: '全部' },
+          { _id: 2, key: 'cat', name: '猫粮' },
+          { _id: 3, key: 'dog', name: '狗粮' },
+          { _id: 4, key: 'rat', name: '仓鼠' },
+          { _id: 5, key: 'tortoise', name: '乌龟' }
+        ],
+        activeType: 'all'
       }
     },
     methods: {
-      choice (i) {
-        this.activeIndex = i
-        console.log(`you choice: ${this.columns[i]}`)
-      }
+      choice ({ _id, key, name }) {
+        this.activeType = key
+        const searchType = key
+        this.setSearchType({ searchType })
+        // 先清除 prodList
+        this.clearProdList().then(() => {
+          this.setProdList()
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      ...mapActions('index', [
+        'setSearchType',
+        'setProdList',
+        'clearProdList'
+      ])
     }
   }
 </script>

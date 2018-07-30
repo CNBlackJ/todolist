@@ -8,8 +8,6 @@
     <div class="prod-cards">
       <prodCard v-for="prod in prodList" :key="prod._id" :prod="prod"></prodCard>
     </div>
-
-    <modal></modal>
   </div>
 </template>
 
@@ -39,7 +37,7 @@
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('皮皮宠物')
-      this.getProdList()
+      this.setProdList()
     },
     components: {
       searchBar: search,
@@ -49,7 +47,7 @@
     },
     methods: {
       ...mapActions('index', [
-        'getProdList'
+        'setProdList'
       ])
     }
   }
@@ -57,10 +55,12 @@
 
 <style scoped>
   .container {
-    background-color: white;
     display: flex;
     flex-direction: column;
     text-align: center;
+    background-color: #efefef;
+    height: 100%;
+    min-height: 600px;
   }
 
   .top-header {
@@ -71,7 +71,6 @@
   }
 
   .prod-cards {
-    background-color: #efefef;
     display: flex;
     flex-direction: row;
     width: 100%;
