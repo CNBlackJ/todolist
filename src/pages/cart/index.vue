@@ -1,40 +1,56 @@
 <template>
   <div class="cart-container">
-    <cartProd></cartProd>
-    <cartProd></cartProd>
-    <cartProd></cartProd>
-    <cartProd></cartProd>
+    
+    <div v-if="!cartList.length" class="cart-empty-info">
+      <p>购物车空空如也～</p>
+    </div>
+    <cartProd v-if="cartList.length" v-for="cartProd in cartList" :key="cartProd._id" :prod="cartProd"></cartProd>
+
     <div class="cart-footer">
       <div class="cart-count">
         <span>合计：</span>
         <span>¥ </span>
-        <span>{{priceCount}}</span>
+        <span>{{priceCounter}}</span>
       </div>
-      <a @click="pay" class="cart-pay">结算({{prodCount}})</a>
+      <a @click="pay" class="cart-pay">结算({{cartList.length}})</a>
     </div>
   </div>
 </template>
 
 <script>
   import { wechat } from '@/utils/wechat'
-
   import cartProd from '@/components/cartProd'
 
+  import store from '@/store/index'
+  import { mapState, mapActions } from 'vuex'
+
   export default {
+    store,
+    computed: {
+      ...mapState('cart', {
+        cartList: state => state.cartList,
+        priceCounter: state => state.priceCounter
+      })
+    },
     data () {
       return {
         products: [],
-        priceCount: '0.00',
         prodCount: 0
       }
     },
     onLoad () {
       wechat.setNavigationBarTitle('购物车')
     },
+    onShow () {
+      this.setPriceCounter()
+    },
     components: {
       cartProd
     },
     methods: {
+      ...mapActions('cart', [
+        'setPriceCounter'
+      ]),
       pay () {
         console.log('pay')
       }
@@ -50,6 +66,15 @@
     flex-direction: column;
     height: 600px;
     width: 100%;
+  }
+
+  .cart-empty-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #999999;
+    font-size: 16px;
   }
 
   .cart-footer {

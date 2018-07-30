@@ -7,6 +7,7 @@ import todo from '../pages/todo/store'
 import profile from '../pages/profile/store'
 
 import index from '../pages/index/store'
+import cart from '../pages/cart/store'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,10 @@ const store = new Vuex.Store({
     index: {
       namespaced: true,
       ...index
+    },
+    cart: {
+      namespaced: true,
+      ...cart
     }
   }
 })

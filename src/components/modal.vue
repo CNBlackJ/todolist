@@ -3,11 +3,11 @@
     <div class="modal-top" @click="closeModal"></div>
     <div class="modal-container">
       <div class="modal-title">
-        新品特惠
+        {{info[infoKey].title}}
       </div>
       <div class="modal-content">
         <p>
-          购买新品将会获得由皮皮宠物赠送的等额宠爱值，宠爱值可用于兑换您喜爱的商品
+            {{info[infoKey].description}}
         </p>
       </div>
       <div class="modal-back-btn" @click="closeModal">
@@ -21,13 +21,20 @@
   export default {
     data () {
       return {
-        title: 'modal',
+        info: {
+          newProd: { title: '新品特惠', description: '购买新品将会获得由皮皮宠物赠送的等额宠爱值，宠爱值可用于兑换您喜爱的商品' },
+          sf: { title: '顺丰承诺达', description: '您购买的商品将有顺丰承诺达运送，货物将在第一时间送到您手中' }
+        },
         isShow: true
       }
     },
+    props: [
+      'infoKey'
+    ],
     methods: {
       closeModal () {
         this.isShow = !this.isShow
+        this.$emit('closeModal')
       }
     }
   }
@@ -73,13 +80,16 @@
 
   .modal-back-btn {
     position: fixed;
-    bottom: 0;
-    width: 100%;
+    bottom: 5px;
+    width: 95%;
     background: red;
     border-radius: 25px;
     font-size: 18px;
     padding: 3px;
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
 </style>

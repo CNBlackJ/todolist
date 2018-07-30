@@ -7,23 +7,23 @@
       <div class="cart-prod-info">
         <div class="cart-prod-name-price">
           <div class="cart-prod-name">
-            {{prodName}}
+            {{prod.name}}
           </div>
           <div class="cart-prod-price">
             <span>¥</span>
-            {{price}}
+            {{prod.price}}
           </div>
         </div>
         <div class="cart-prod-size">
           {{size}}
         </div>
         <div class="cart-prod-count">
-          <a @click="plus" class="cart-btn-plus">+</a>
+          <a @click="plus" class="cart-btn-plus" :class="{'cart-btn-dis': isMax}">+</a>
           <span class="cart-pord-sum">
               {{count}}
           </span>
-          <a @click="minus" class="cart-btn-minus">-</a>
-          <a class="cart-btn-delete">x</a>
+          <a @click="minus" class="cart-btn-minus" :class="{'cart-btn-dis': isMinimum}">-</a>
+          <a @click="deleteFromCart(prod._id)" class="cart-btn-delete">x</a>
         </div>
       </div>
     </div>
@@ -31,21 +31,38 @@
 </template>
 
 <script>
+  import store from '@/store/index'
+  import { mapActions } from 'vuex'
+
   export default {
+    store,
     data () {
       return {
-        prodName: '【进口】小蠢狗',
-        price: 99.99,
-        size: '白色 - 1.3kg',
-        count: 1
+        size: '1.3kg',
+        count: 1,
+        isMinimum: false,
+        isMax: false
       }
     },
+    props: [
+      'prod'
+    ],
     methods: {
+      ...mapActions('cart', [
+        'rmFromCart'
+      ]),
+      deleteFromCart (prodId) {
+        this.rmFromCart({ prodId })
+      },
       plus () {
-        this.count++
+        this.isMinimum = false
+        if (this.count < 15) this.count++
+        if (this.count >= 15) this.isMax = true
       },
       minus () {
-        this.count--
+        this.isMax = false
+        if (this.count > 0) this.count--
+        if (this.count <= 0) this.isMinimum = true
       }
     }
   }
@@ -131,6 +148,10 @@
     padding: 5px 15px;
     border: 1px solid #efefef;
     border-radius: 5px;
+  }
+
+  .cart-btn-dis {
+    background-color: #efefef;
   }
 
   .cart-btn-delete {

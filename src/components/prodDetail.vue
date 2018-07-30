@@ -31,6 +31,8 @@
 
   .product-detail-description {
     padding: 10px;
+    background-color: white;
+    margin-top: 15px;
   }
 
   .product-detail-imgs {

@@ -6,13 +6,13 @@
 
     <div class="product-info">
       <div class="product-price">
-        ¥ 99.99
+        ¥ {{selectedProd.price}}
       </div>
       <div class="product-tags">
         <span class="product-tag">皮皮优选</span>
       </div>
       <div class="product-name-share">
-        <span class="product-name">【进口】美国进口狗粮 250g</span>
+        <span class="product-name">{{selectedProd.name}}</span>
         <a class="product-share">分享</a>
       </div>
       <div class="product-sales-info">
@@ -29,13 +29,13 @@
       </div>
 
       <div class="promotion-description-group">
-        <span class="promotion-description">新品购买可获得等额宠爱值</span>
-        <span class="promotion-description">顺丰承诺达</span>
+        <span @click="showModal('newProd')" class="promotion-description">新品购买可获得等额宠爱值</span>
+        <span @click="showModal('sf')" class="promotion-description">顺丰承诺达</span>
       </div>
 
       <div class="promotion-detail-btn-group">
-        <span class="promotion-detail-btn">></span>
-        <span class="promotion-detail-btn">></span>
+        <span @click="showModal('newProd')" class="promotion-detail-btn">></span>
+        <span @click="showModal('sf')" class="promotion-detail-btn">></span>
       </div>
     </div>
 
@@ -60,48 +60,79 @@
 
     <div class="product-detail-menus">
       <div class="product-detail-btn">
-        <div class="menu-collect">
-            <img class="menu-img" src="/static/images/prod_detail_collect.png" background-size="cover">
-            <span>收藏</span>
-          </div>
-          <div @click="goToHome" class="menu-home">
-            <img class="menu-img" src="/static/images/prod_detail_home.png" background-size="cover">
-            <span>首页</span>
-          </div>
-          <div class="menu-share">
-            <img class="menu-img" src="/static/images/prod_detail_share.png" background-size="cover">
-            <span>分享</span>
-          </div>
+        <div @click="collect" class="menu-collect">
+          <img class="menu-img" :src="collectImg" background-size="cover">
+          <span>收藏</span>
+        </div>
+        <div @click="goToHome" class="menu-home">
+          <img class="menu-img" src="/static/images/prod_detail_home.png" background-size="cover">
+          <span>首页</span>
+        </div>
+        <div @click="goToCart" class="menu-share">
+          <img class="menu-img" src="/static/images/prod_detail_share.png" background-size="cover">
+          <span>购物车</span>
+        </div>
       </div>
-      <a @click="purchase" href="/pages/todo/main" class="menu-purchase-btn">
-        <span class="menu-purchase-text">立即购买</span>
+      <a @click="addToCart" class="menu-purchase-btn">
+        <span class="menu-purchase-text">加入购物车</span>
       </a>
     </div>
+    <modal v-if="isShowModal" v-on:closeModal="closeModal" :infoKey="infoKey"></modal>
   </div>
 </template>
 
 <script>
   import { wechat } from '@/utils/wechat'
   import prodDetail from '@/components/prodDetail'
+  import modal from '@/components/modal'
+
+  import store from '@/store/index'
+  import { mapActions, mapState } from 'vuex'
 
   export default {
+    store,
+    computed: {
+      ...mapState('index', {
+        selectedProd: state => state.selectedProd
+      })
+    },
     data () {
       return {
-        title: '商品详情'
+        title: '商品详情',
+        collectImg: '/static/images/prod_detail_collect.png',
+        isShowModal: false,
+        infoKey: '',
+        isCollect: false
       }
     },
     components: {
-      prodDetail
+      prodDetail,
+      modal
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('商品详情')
     },
     methods: {
-      purchase () {
-        console.log('I am purchase')
-      },
+      ...mapActions('cart', [
+        'addToCart'
+      ]),
       goToHome () {
         wechat.switchTab('../index/main')
+      },
+      goToCart () {
+        wechat.switchTab('../cart/main')
+      },
+      showModal (val) {
+        this.infoKey = val
+        this.isShowModal = !this.isShowModal
+      },
+      closeModal () {
+        this.isShowModal = !this.isShowModal
+      },
+      collect () {
+        console.log('I am collect')
+        this.isCollect = !this.isCollect
+        this.collectImg = `/static/images/prod_detail_collect${this.isCollect ? '_selected' : ''}.png`
       }
     }
   }

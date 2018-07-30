@@ -1,5 +1,5 @@
 <template>
-  <div class="prod-card" @click="goToProdDetail">
+  <div class="prod-card" @click="goToProdDetail(prod._id)">
     <div class="user-info">
       <div class="user-avatar-container">
         <img src="/static/images/avatar.png" class="user-avatar" background-size="cover">
@@ -33,8 +33,10 @@
 </template>
 
 <script>
-  import store from '@/store/index'
   import { wechat } from '@/utils/wechat'
+
+  import store from '@/store/index'
+  import { mapActions } from 'vuex'
 
   export default {
     store,
@@ -42,8 +44,13 @@
       'prod'
     ],
     methods: {
-      goToProdDetail () {
-        wechat.navigateTo('../product/main')
+      ...mapActions('index', [
+        'setSelectedProd'
+      ]),
+      goToProdDetail (prodId) {
+        this.setSelectedProd({ prodId }).then(() => {
+          wechat.navigateTo('../product/main')
+        })
       }
     }
   }

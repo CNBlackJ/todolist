@@ -10,7 +10,8 @@ const prods = [
 
 const state = {
   prodList: [],
-  searchType: ''
+  searchType: '',
+  selectedProd: {}
 }
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
   },
   setSearchType (state, { searchType }) {
     state.searchType = searchType
+  },
+  setSelectedProd (state, { selectedProd }) {
+    state.selectedProd = selectedProd
   }
 }
 
@@ -34,6 +38,10 @@ const actions = {
   },
   setSearchType ({ state, commit }, { searchType }) {
     commit('setSearchType', { searchType })
+  },
+  async setSelectedProd ({ state, commit }, { prodId }) {
+    const selectedProd = prods.find(prod => prod._id === prodId)
+    commit('setSelectedProd', { selectedProd })
   }
 }
 
