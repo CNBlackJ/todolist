@@ -71,7 +71,7 @@
         <span class="recom-title">为·您·推·荐</span>
       </div>
       <div class="recom-prods">
-        <prodCard v-for="i in 3" :key="i"></prodCard>
+        <prodCard v-for="prod in prodList" :key="prod._id" :prod="prod"></prodCard>
       </div>
     </div>
   </div>
@@ -93,14 +93,14 @@
     computed: {
       ...mapState({
         userInfo: state => state.todo.userInfo
+      }),
+      ...mapState('index', {
+        prodList: state => state.prodList.slice(0, 3)
       })
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('个人中心')
-      wx.setNavigationBarColor({
-        frontColor: '#ffffff',
-        backgroundColor: '#ff0000'
-      })
+      wx.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#ff0000' })
     },
     methods: {
       bindViewTap () {
