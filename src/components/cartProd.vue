@@ -18,11 +18,11 @@
           {{size}}
         </div>
         <div class="cart-prod-count">
-          <a @click="plus" class="cart-btn-plus" :class="{'cart-btn-dis': isMax}">+</a>
+          <a @click="plus(prod._id)" class="cart-btn-plus" :class="{'cart-btn-dis': isMax}">+</a>
           <span class="cart-pord-sum">
               {{count}}
           </span>
-          <a @click="minus" class="cart-btn-minus" :class="{'cart-btn-dis': isMinimum}">-</a>
+          <a @click="minus(prod._id)" class="cart-btn-minus" :class="{'cart-btn-dis': isMinimum}">-</a>
           <a @click="deleteFromCart(prod._id)" class="cart-btn-delete">x</a>
         </div>
       </div>
@@ -49,19 +49,31 @@
     ],
     methods: {
       ...mapActions('cart', [
-        'rmFromCart'
+        'rmFromCart',
+        'setPriceCounter',
+        'addProdCount'
       ]),
       deleteFromCart (prodId) {
         this.rmFromCart({ prodId })
       },
-      plus () {
+      plus (prodId) {
         this.isMinimum = false
-        if (this.count < 15) this.count++
+        if (this.count < 15) {
+          this.count++
+          this.addProdCount({ prodId, num: 1 }).then(() => {
+            this.setPriceCounter()
+          })
+        }
         if (this.count >= 15) this.isMax = true
       },
-      minus () {
+      minus (prodId) {
         this.isMax = false
-        if (this.count > 0) this.count--
+        if (this.count > 0) {
+          this.count--
+          this.addProdCount({ prodId, num: -1 }).then(() => {
+            this.setPriceCounter()
+          })
+        }
         if (this.count <= 0) this.isMinimum = true
       }
     }

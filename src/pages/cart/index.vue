@@ -12,7 +12,7 @@
         <span>¥ </span>
         <span>{{priceCounter}}</span>
       </div>
-      <a @click="pay" class="cart-pay">结算({{cartList.length}})</a>
+      <a @click="pay" class="cart-pay">结算({{prodCount}})</a>
     </div>
   </div>
 </template>
@@ -29,13 +29,13 @@
     computed: {
       ...mapState('cart', {
         cartList: state => state.cartList,
-        priceCounter: state => state.priceCounter
+        priceCounter: state => state.priceCounter,
+        prodCount: state => state.prodCount
       })
     },
     data () {
       return {
-        products: [],
-        prodCount: 0
+        products: []
       }
     },
     onLoad () {
