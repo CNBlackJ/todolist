@@ -1,7 +1,8 @@
 const state = {
   cartList: [],
   priceCounter: 0,
-  prodCount: 0
+  prodCount: 0,
+  isInCart: false
 }
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
   },
   setProdCount (state, { prodCount }) {
     state.prodCount = prodCount
+  },
+  setIsInCart (state, { isInCart }) {
+    state.isInCart = isInCart
   }
 }
 
@@ -21,9 +25,13 @@ const actions = {
     // 复制数组
     const cartList = state.cartList.slice()
     const selectedProd = rootState.index.selectedProd
-    selectedProd.count = 1
-    cartList.push(selectedProd)
-    commit('setCartList', { cartList })
+    const isInCart = cartList.find(prod => prod._id === selectedProd._id)
+    if (!isInCart) {
+      selectedProd.count = 1
+      cartList.push(selectedProd)
+      commit('setCartList', { cartList })
+    }
+    commit('setIsInCart', { isInCart })
   },
   async addProdCount ({ state, commit }, { prodId, num }) {
     const cartList = state.cartList.slice()

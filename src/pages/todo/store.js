@@ -3,7 +3,7 @@ import { wechat } from '@/utils/wechat'
 
 const state = {
   userInfo: {
-    avatarUrl: 'https://secure.gravatar.com/avatar/aac2f5df7319d9cc3eb089695857613f?s=180&d=identicon'
+    avatarUrl: 'https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/avatar2.png'
   },
   openId: '',
   isLogin: false,

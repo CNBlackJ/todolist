@@ -32,10 +32,15 @@
 
 <script>
   import store from '@/store/index'
-  import { mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     store,
+    computed: {
+      ...mapState('cart', {
+        isInCart: state => state.isInCart
+      })
+    },
     data () {
       return {
         size: '1.3kg',
