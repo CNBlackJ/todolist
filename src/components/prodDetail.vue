@@ -7,7 +7,7 @@
       <p>3、还有好多的好处</p>
     </div>
     <div class="product-detail-imgs">
-      <img  class="product-detail-img"  v-for="i in imgList" :key="i" :src="'/static/images/prod_detail_' + i +'.png'" background-size="cover">
+      <img  class="product-detail-img"  v-for="i in imgList" :key="i" :src="'https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_detail_' + i +'.png'" background-size="cover">
     </div>
   </div>
 </template>

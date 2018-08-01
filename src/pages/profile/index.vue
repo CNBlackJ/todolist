@@ -40,23 +40,23 @@
       </div>
       <div class="order-panel-info">
         <a class="order-wait-pay">
-          <img class="img-wait-pay" src="/static/images/wait_pay.png" background-size="cover">
+          <img class="img-wait-pay" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/wait_pay.png" background-size="cover">
           <p>待支付</p>
         </a>
         <a class="order-wait-didpatch">
-          <img class="img-wait-dispatch" src="/static/images/wait_dispatch.png" background-size="cover">
+          <img class="img-wait-dispatch" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/wait_dispatch.png" background-size="cover">
           <p>待发出</p>
         </a>
         <a class="order-wait-sign">
-          <img class="img-wait-sign" src="/static/images/wait_sign.png" background-size="cover">
+          <img class="img-wait-sign" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/wait_sign.png" background-size="cover">
           <p>待签收</p>
         </a>
         <a class="order-wait-comment">
-          <img class="img-wait-comment" src="/static/images/wait_comment.png" background-size="cover">
+          <img class="img-wait-comment" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/wait_comment.png" background-size="cover">
           <p>待评价</p>
         </a>
         <a class="order-logistic">
-          <img class="img-logistic" src="/static/images/prod_logistic.png" background-size="cover">
+          <img class="img-logistic" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_logistic.png" background-size="cover">
           <p>物流信息</p>
         </a>
       </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="product-container">
     <div class="product-img-slide">
-      <img src="/static/images/prod_cat.png" class="product-img" background-size="cover">
+      <img src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_cat.png" class="product-img" background-size="cover">
     </div>
 
     <div class="product-info">
@@ -65,11 +65,11 @@
           <span>收藏</span>
         </div>
         <div @click="goToHome" class="menu-home">
-          <img class="menu-img" src="/static/images/prod_detail_home.png" background-size="cover">
+          <img class="menu-img" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_detail_home.png" background-size="cover">
           <span>首页</span>
         </div>
         <div @click="goToCart" class="menu-share">
-          <img class="menu-img" src="/static/images/prod_detail_share.png" background-size="cover">
+          <img class="menu-img" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_detail_share.png" background-size="cover">
           <span>购物车</span>
         </div>
       </div>
@@ -99,7 +99,7 @@
     data () {
       return {
         title: '商品详情',
-        collectImg: '/static/images/prod_detail_collect.png',
+        collectImg: 'https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_detail_collect.png',
         isShowModal: false,
         infoKey: '',
         isCollect: false
@@ -132,7 +132,7 @@
       collect () {
         console.log('I am collect')
         this.isCollect = !this.isCollect
-        this.collectImg = `/static/images/prod_detail_collect${this.isCollect ? '_selected' : ''}.png`
+        this.collectImg = `https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/prod_detail_collect${this.isCollect ? '_selected' : ''}.png`
       }
     }
   }

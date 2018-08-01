@@ -2,7 +2,7 @@
   <div class="cart-prod-container">
     <div class="cart-prod-detail">
       <div class="cart-prod-img-container">
-        <img src="/static/images/cart_prod.png" class="cart-prod-img" background-size="cover">
+        <img src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/cart_prod.png" class="cart-prod-img" background-size="cover">
       </div>
       <div class="cart-prod-info">
         <div class="cart-prod-name-price">
