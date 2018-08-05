@@ -59,7 +59,9 @@
         'addProdCount'
       ]),
       deleteFromCart (prodId) {
-        this.rmFromCart({ prodId })
+        this.rmFromCart({ prodId }).then(() => {
+          this.setPriceCounter()
+        })
       },
       plus (prodId) {
         this.isMinimum = false

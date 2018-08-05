@@ -1,5 +1,6 @@
 <template>
   <div class="profile-container">
+    <loginBtn></loginBtn>
     <div class="profile-userinfo">
       <div class="profile-user-avatar">
         <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
@@ -78,6 +79,7 @@
 </template>
   
 <script>
+  import loginBtn from '@/components/loginBtn'
   import prodCard from '@/components/prodCard'
   import setting from '@/components/setting'
   import { mapState } from 'vuex'
@@ -88,7 +90,8 @@
     store,
     components: {
       prodCard,
-      setting
+      setting,
+      loginBtn
     },
     computed: {
       ...mapState({

@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// Use Vuex
 import store from '@/store/index'
 
 export default {
