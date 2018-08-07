@@ -1,6 +1,5 @@
 <template>
   <div class="profile-container">
-    <loginBtn></loginBtn>
     <div class="profile-userinfo">
       <div class="profile-user-avatar">
         <img class="user-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
@@ -79,7 +78,6 @@
 </template>
   
 <script>
-  import loginBtn from '@/components/loginBtn'
   import prodCard from '@/components/prodCard'
   import setting from '@/components/setting'
   import { mapState } from 'vuex'
@@ -90,8 +88,7 @@
     store,
     components: {
       prodCard,
-      setting,
-      loginBtn
+      setting
     },
     computed: {
       ...mapState({
@@ -99,11 +96,20 @@
       }),
       ...mapState('index', {
         prodList: state => state.prodList.slice(0, 3)
+      }),
+      ...mapState('login', {
+        isLogin: state => state.isLogin
       })
     },
-    onLoad (options) {
+    onLoad () {
       wechat.setNavigationBarTitle('个人中心')
-      wx.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#ff0000' })
+    },
+    onShow () {
+      if (!this.isLogin) {
+        wechat.navigateTo('../login/main')
+      } else {
+        wx.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#ff0000' })
+      }
     },
     methods: {
       bindViewTap () {

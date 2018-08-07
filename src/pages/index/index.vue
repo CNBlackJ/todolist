@@ -35,6 +35,9 @@
         motto: 'Hello World'
       }
     },
+    created () {
+      this.getSetting()
+    },
     onLoad (options) {
       wechat.setNavigationBarTitle('皮皮宠物')
       this.setProdList()
@@ -48,7 +51,16 @@
     methods: {
       ...mapActions('index', [
         'setProdList'
-      ])
+      ]),
+      ...mapActions('todo', [
+        'getUserInfo',
+        'login'
+      ]),
+      async getSetting () {
+        this.login().then(() => {
+          this.getUserInfo()
+        })
+      }
     }
   }
 </script>

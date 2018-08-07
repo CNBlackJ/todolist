@@ -2,24 +2,54 @@
   <div class="login-container">
     <div class="login-title">
       <span>
-        皮皮宠物账号登陆
+        皮皮宠物欢迎您
       </span>
     </div>
     <div class="avatar-container">
       <img class="unlogin-avatar" src="https://images-1255936829.cos.ap-guangzhou.myqcloud.com/images/avatar.png" background-size="cover" />
     </div>
     <div class="btn-login-container">
-      <button class="btn-login" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">微信号</button>
-      <button class="btn-login">手机号</button>
-      <input type="text" placeholder="输入手机号" class="phone-input">
+      <button class="btn-login" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">微信号一键登陆</button>
     </div>
+    
   </div>
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
+  import store from '@/store/index'
+
   export default {
-    data () {
-      return {}
+    store,
+    computed: {
+      ...mapState({
+        isLogin: state => state.isLogin
+      })
+    },
+    methods: {
+      ...mapActions('login', [
+        'setIsLogin'
+      ]),
+      ...mapActions('todo', [
+        'getUserInfo',
+        'login'
+      ]),
+      bindGetUserInfo (e) {
+        console.log('click login btm')
+        if (e.mp.detail.rawData) {
+          this.getSetting().then(() => {
+            console.log('success to login...')
+            this.setIsLogin()
+          })
+        } else {
+          console.log('用户按了拒绝按钮')
+        }
+      },
+      async getSetting () {
+        this.login().then(() => {
+          this.getUserInfo()
+        })
+      }
     }
   }
 </script>
@@ -32,7 +62,7 @@
   }
 
   .login-title {
-    padding-top: 20%;
+    padding-top: 40%;
     font-size: 24px;
   }
 
@@ -64,6 +94,5 @@
     border: 1px solid #efefef;
     border-radius: 5px;
   }
-
 
 </style>

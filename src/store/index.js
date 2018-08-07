@@ -5,6 +5,7 @@ import counter from '../pages/counter/store'
 import done from '../pages/done/store'
 import todo from '../pages/todo/store'
 import profile from '../pages/profile/store'
+import login from '../pages/login/store'
 
 import index from '../pages/index/store'
 import cart from '../pages/cart/store'
@@ -36,6 +37,10 @@ const store = new Vuex.Store({
     cart: {
       namespaced: true,
       ...cart
+    },
+    login: {
+      namespaced: true,
+      ...login
     }
   }
 })

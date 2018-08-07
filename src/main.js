@@ -15,11 +15,11 @@ export default {
     pages: [
       'pages/todo/main',
       'pages/logs/main',
-      'pages/index/main',
+      '^pages/index/main',
       'pages/cart/main',
       'pages/profile/main',
       'pages/product/main',
-      '^pages/login/main'
+      'pages/login/main'
     ],
     window: {
       backgroundTextStyle: 'light',
