@@ -11,16 +11,22 @@
     <div class="btn-login-container">
       <button class="btn-login" open-type="getUserInfo" @getuserinfo="bindGetUserInfo">微信号一键登陆</button>
     </div>
-    
+    <popup></popup>
   </div>
 </template>
 
 <script>
+  import { wechat } from '@/utils/wechat'
   import { mapActions, mapState } from 'vuex'
   import store from '@/store/index'
 
+  import popup from '@/components/popup'
+
   export default {
     store,
+    components: {
+      popup
+    },
     computed: {
       ...mapState({
         isLogin: state => state.isLogin
@@ -35,11 +41,12 @@
         'login'
       ]),
       bindGetUserInfo (e) {
-        console.log('click login btm')
         if (e.mp.detail.rawData) {
           this.getSetting().then(() => {
-            console.log('success to login...')
             this.setIsLogin()
+            setTimeout(() => {
+              wechat.switchTab('../index/main')
+            }, 2000)
           })
         } else {
           console.log('用户按了拒绝按钮')

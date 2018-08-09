@@ -106,7 +106,7 @@
     },
     onShow () {
       if (!this.isLogin) {
-        wechat.navigateTo('../login/main')
+        wechat.redirectTo('../login/main')
       } else {
         wx.setNavigationBarColor({ frontColor: '#ffffff', backgroundColor: '#ff0000' })
       }

@@ -49,6 +49,12 @@ export class wechat {
     })
   }
 
+  static redirectTo (url) {
+    return new Promise((resolve, reject) => {
+      wx.redirectTo({ url, success: resolve, fail: reject })
+    })
+  }
+
   static switchTab (url) {
     return new Promise((resolve, reject) => {
       wx.switchTab({ url, success: resolve, fail: reject })
