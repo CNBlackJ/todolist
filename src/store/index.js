@@ -4,11 +4,11 @@ import Vuex from 'vuex'
 import counter from '../pages/counter/store'
 import done from '../pages/done/store'
 import todo from '../pages/todo/store'
-import profile from '../pages/profile/store'
-import login from '../pages/login/store'
 
-import index from '../pages/index/store'
-import cart from '../pages/cart/store'
+import profile from '../store/modules/profile'
+import login from '../store/modules/login'
+import index from '../store/modules/index'
+import cart from '../store/modules/cart'
 
 Vue.use(Vuex)
 
