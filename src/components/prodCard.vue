@@ -36,20 +36,25 @@
   import { wechat } from '@/utils/wechat'
 
   import store from '@/store/index'
-  import { mapActions } from 'vuex'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     store,
     props: [
       'prod'
     ],
+    computed: {
+      ...mapState('login', {
+        isLogin: state => state.isLogin
+      })
+    },
     methods: {
       ...mapActions('index', [
         'setSelectedProd'
       ]),
       goToProdDetail (prodId) {
         this.setSelectedProd({ prodId }).then(() => {
-          wechat.navigateTo('../product/main')
+          wechat.redirectTo(`../${this.isLogin ? 'product' : 'login'}/main`)
         })
       }
     }

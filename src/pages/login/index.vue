@@ -34,28 +34,20 @@
     },
     methods: {
       ...mapActions('login', [
-        'setIsLogin'
-      ]),
-      ...mapActions('todo', [
-        'getUserInfo',
         'login'
       ]),
       bindGetUserInfo (e) {
+        console.log(e.mp.detail.rawData)
         if (e.mp.detail.rawData) {
-          this.getSetting().then(() => {
-            this.setIsLogin()
-            setTimeout(() => {
-              wechat.switchTab('../index/main')
-            }, 2000)
+          this.login().then(() => {
+            wechat.switchTab('../index/main')
+            // setTimeout(() => {
+            //   wechat.switchTab('../index/main')
+            // }, 2000)
           })
         } else {
           console.log('用户按了拒绝按钮')
         }
-      },
-      async getSetting () {
-        this.login().then(() => {
-          this.getUserInfo()
-        })
       }
     }
   }

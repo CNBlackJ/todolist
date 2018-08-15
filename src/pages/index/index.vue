@@ -35,12 +35,11 @@
         motto: 'Hello World'
       }
     },
-    created () {
-      this.getSetting()
-    },
-    onLoad (options) {
+    onLoad () {
       wechat.setNavigationBarTitle('皮皮宠物')
-      this.setProdList()
+      this.login().then(() => {
+        this.setProdList()
+      })
     },
     components: {
       searchBar: search,
@@ -52,15 +51,9 @@
       ...mapActions('index', [
         'setProdList'
       ]),
-      ...mapActions('todo', [
-        'getUserInfo',
+      ...mapActions('login', [
         'login'
-      ]),
-      async getSetting () {
-        this.login().then(() => {
-          this.getUserInfo()
-        })
-      }
+      ])
     }
   }
 </script>

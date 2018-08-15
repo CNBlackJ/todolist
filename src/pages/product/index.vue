@@ -94,9 +94,6 @@
     computed: {
       ...mapState('index', {
         selectedProd: state => state.selectedProd
-      }),
-      ...mapState('login', {
-        isLogin: state => state.isLogin
       })
     },
     data () {
@@ -114,7 +111,6 @@
     },
     onLoad (options) {
       wechat.setNavigationBarTitle('商品详情')
-      if (!this.isLogin) wechat.redirectTo('../login/main')
     },
     methods: {
       ...mapActions('cart', [
