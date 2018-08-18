@@ -1,3 +1,5 @@
+import { request } from '@/utils/request'
+
 const prods = [
   { _id: 1, name: '【进口】美国原装猫粮', types: ['cat'], price: '99.99', imgs: ['prod_cat.png'], sales: 999, seller: { _id: 1, name: '五星豪猪', address: '广东广州', avatar: 'avatar.png' } },
   { _id: 2, name: '猫砂', types: ['cat'], price: '99.99', imgs: ['prod_cat.png'], sales: 999, seller: { _id: 1, name: '五星豪猪', address: '广东广州', avatar: 'avatar.png' } },
@@ -27,7 +29,8 @@ const mutations = {
 }
 
 const actions = {
-  setProdList ({ state, commit }) {
+  async setProdList ({ state, commit }) {
+    const prods = await request.listProds()
     const searchType = state.searchType || 'all'
     const prodList = searchType === 'all' ? prods : prods.filter(prod => prod.types.indexOf(searchType) > -1)
     commit('setProdList', { prodList })

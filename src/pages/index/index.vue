@@ -37,9 +37,8 @@
     },
     onLoad () {
       wechat.setNavigationBarTitle('皮皮宠物')
-      this.login().then(() => {
-        this.setProdList()
-      })
+      this.setProdList()
+      this.login()
     },
     components: {
       searchBar: search,

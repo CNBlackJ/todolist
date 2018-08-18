@@ -47,4 +47,24 @@ export class request {
     const resp = await fly.get(`${url}/api/users?openId=${openId}`)
     return resp.data[0]
   }
+
+  static async listProducts () {
+    const resp = await fly.get(`${url}/api/products?limit=20`)
+    return resp.data
+  }
+
+  static async getProduct ({ _id }) {
+    const resp = await fly.get(`${url}/api/products/${_id}`)
+    return resp.data
+  }
+
+  static async createCart ({ userId, productId }) {
+    const resp = await fly.post(`${url}/api/carts`, { userId, productId })
+    return resp.data
+  }
+
+  static async updateCart ({ _id, count }) {
+    const resp = await fly.put(`${url}/api/carts/${_id}`, { count })
+    return resp.data
+  }
 }

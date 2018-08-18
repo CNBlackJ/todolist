@@ -1,8 +1,9 @@
+import { request } from '@/utils/request'
+
 const state = {
   cartList: [],
   priceCounter: 0,
-  prodCount: 0,
-  isInCart: false
+  prodCount: 0
 }
 
 const mutations = {
@@ -14,9 +15,6 @@ const mutations = {
   },
   setProdCount (state, { prodCount }) {
     state.prodCount = prodCount
-  },
-  setIsInCart (state, { isInCart }) {
-    state.isInCart = isInCart
   }
 }
 
@@ -31,7 +29,12 @@ const actions = {
       cartList.push(selectedProd)
       commit('setCartList', { cartList })
     }
-    commit('setIsInCart', { isInCart })
+
+    const userId = rootState.login.userInfo._id
+    const productId = ''
+
+    const newCartProd = await request.createCart({ userId, productId })
+    console.log(newCartProd)
   },
   async addProdCount ({ state, commit }, { prodId, num }) {
     const cartList = state.cartList.slice()
