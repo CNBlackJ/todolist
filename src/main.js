@@ -15,11 +15,12 @@ export default {
     pages: [
       'pages/todo/main',
       'pages/logs/main',
-      '^pages/index/main',
+      'pages/index/main',
       'pages/cart/main',
       'pages/profile/main',
       'pages/product/main',
-      'pages/login/main'
+      'pages/login/main',
+      '^pages/mytool/main'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -41,6 +42,11 @@ export default {
       }, {
         pagePath: 'pages/profile/main',
         text: '我',
+        iconPath: 'static/images/shop_user.png',
+        selectedIconPath: 'static/images/shop_user_selected.png'
+      }, {
+        pagePath: 'pages/mytool/main',
+        text: '小工具',
         iconPath: 'static/images/shop_user.png',
         selectedIconPath: 'static/images/shop_user_selected.png'
       }]
