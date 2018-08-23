@@ -10,6 +10,12 @@
         <div class="joy-stick"></div>
       </div>
 
+      <div class="blue">
+        <div class="white">
+          <div class="red"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -37,6 +43,7 @@
 
   .tools-main {
     display: flex;
+    margin-top: 50%;
   }
 
   .joy-stick-bg {
@@ -53,5 +60,33 @@
     height: 50px;
     border-radius: 100%;
     background-color: #af0808;
+  }
+
+  .blue {
+    height: 200px;
+    width: 200px;
+    background-color: rgb(0, 36, 125);
+    position: relative;
+    border-radius: 50%;
+  }
+
+  .white {
+    height: 130px;
+    width: 130px;
+    background-color: #fff;
+      position: absolute;
+    top: 35px;
+    left: 35px;
+    border-radius: 50%;
+  }
+
+  .red {
+    height: 70px;
+    width: 70px;
+    background-color: rgb(206, 17, 38);
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    border-radius: 50%;
   }
 </style>
