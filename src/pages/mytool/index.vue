@@ -4,15 +4,11 @@
       <span>小工具</span>
     </div>
 
-    <div class="tools-main">
-
-      <div class="joy-stick-bg">
-        <div class="joy-stick"></div>
-      </div>
+    <div class="joystick">
 
       <div class="blue">
         <div class="white">
-          <div class="red"></div>
+          <div class="red" @tap="btnTap" @touchmove="move" @touchend="moveEnd"></div>
         </div>
       </div>
 
@@ -25,6 +21,17 @@
     data () {
       return {
         title: 'tools'
+      }
+    },
+    methods: {
+      btnTap () {
+        console.log('tap...')
+      },
+      move (e) {
+        console.log(e.touches[0].clientX, e.touches[0].clientY)
+      },
+      moveEnd () {
+        console.log('moving end.')
       }
     }
   }
@@ -41,25 +48,8 @@
     font-size: 24px;
   }
 
-  .tools-main {
-    display: flex;
+  .joystick {
     margin-top: 50%;
-  }
-
-  .joy-stick-bg {
-    width: 100px;
-    height: 100px;
-    background-color: #efefef;
-    border-radius: 100%;
-    top: 300px;
-    left: 100px;
-  }
-
-  .joy-stick {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    background-color: #af0808;
   }
 
   .blue {
